@@ -1,0 +1,5 @@
+.vagrant
+.kitchen
+.librarian
+.tmp
+*~
