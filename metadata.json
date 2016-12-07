@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "author": "New Relic, Inc.",
     "summary": "A Puppet module for installing New Relic Infrastructure Agent",
-    "license": "",
+    "license": "https://github.com/newrelic/infrastructure-agent-puppet/LICENSE.md",
     "source": "https://github.com/newrelic/infrastructure-agent-puppet",
     "project_page": "https://github.com/newrelic/infrastructure-agent-puppet",
     "issues_url": "",
