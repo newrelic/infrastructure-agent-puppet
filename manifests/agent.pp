@@ -7,6 +7,11 @@
 # [*license_key*]
 #   New Relic license key
 #
+# [*package_repo_ensure*]
+#   Optional flag to disable setting up New Relic's package repo.
+#   This is useful in the event the newrelic-infra package has been
+#   mirrored to a repo that already exists on the system
+#
 # === Authors
 #
 # New Relic, Inc.
@@ -14,6 +19,7 @@
 class newrelic_infra::agent (
   $ensure       = 'latest',
   $license_key  = '',
+  $package_repo_ensure  = 'present',
 ) {
   # Validate license key
   if $license_key == '' {
@@ -25,6 +31,7 @@ class newrelic_infra::agent (
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
       apt::source { 'newrelic_infra-agent':
+        ensure       => $package_repo_ensure,
         location     => "https://download.newrelic.com/infrastructure_agent/linux/apt",
         release      => $lsbdistcodename,
         repos        => "main",
@@ -41,6 +48,7 @@ class newrelic_infra::agent (
     }
     'RedHat', 'CentOS','Amazon': {
       yumrepo { 'newrelic_infra-agent':
+        ensure        => $package_repo_ensure,
         descr         => "New Relic Infrastructure",
         baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/$operatingsystemmajrelease/x86_64",
         gpgkey        => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
