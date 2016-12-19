@@ -68,10 +68,19 @@ class newrelic_infra::agent (
     notify  => Service['newrelic-infra'] # Restarts the agent service on config changes
   }
 
-  # Setup agent service
-  service { 'newrelic-infra':
-    ensure => 'running',
-    # provider => 'upstart', # may be required for your environment in CentOS 6
-    require => Package['newrelic-infra']
+  # we use Upstart on CentOS 6 systems and derivatives, which is not the default
+  if ($::operatingsystem == 'CentOS' and $::operatingsystemmajrelease == '6') 
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2015') {
+    service { 'newrelic-infra':
+      ensure => 'running',
+      provider => 'upstart',
+      require => Package['newrelic-infra'],
+    }
+  } else {
+    # Setup agent service
+    service { 'newrelic-infra':
+      ensure => 'running',
+      require => Package['newrelic-infra'],
+    }
   }
 }
