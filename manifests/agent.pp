@@ -12,6 +12,8 @@
 #   This is useful in the event the newrelic-infra package has been
 #   mirrored to a repo that already exists on the system
 #
+# [*package_repo_ensure*]
+#   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
 # === Authors
 #
 # New Relic, Inc.
@@ -20,6 +22,7 @@ class newrelic_infra::agent (
   $ensure       = 'latest',
   $license_key  = '',
   $package_repo_ensure  = 'present',
+  $proxy = '',
 ) {
   # Validate license key
   if $license_key == '' {
