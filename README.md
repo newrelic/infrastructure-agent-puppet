@@ -91,8 +91,6 @@ package has been mirrored to another repo that's already present on the system (
   - 14 Trusty
   - 12 Precise
 - Debian
-  - 10 Buster
-  - 9 Stretch
   - 8 Jessie
   - 7 Wheezy
 
