@@ -7,6 +7,17 @@
 # [*license_key*]
 #   New Relic license key
 #
+# [*package_repo_ensure*]
+#   Optional flag to disable setting up New Relic's package repo.
+#   This is useful in the event the newrelic-infra package has been
+#   mirrored to a repo that already exists on the system
+#
+# [*proxy*]
+#   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
+#
+# [*custom_attributes*]
+#   Optional hash of attributes to assign to this host (see docs https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes)
+#
 # === Authors
 #
 # New Relic, Inc.
@@ -14,6 +25,9 @@
 class newrelic_infra::agent (
   $ensure       = 'latest',
   $license_key  = '',
+  $package_repo_ensure  = 'present',
+  $proxy = '',
+  $custom_attributes = {},
 ) {
   # Validate license key
   if $license_key == '' {
@@ -24,7 +38,11 @@ class newrelic_infra::agent (
   # Setup agent package repo
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
+      package { 'apt-transport-https':
+        ensure => 'installed',
+      }
       apt::source { 'newrelic_infra-agent':
+        ensure       => $package_repo_ensure,
         location     => "https://download.newrelic.com/infrastructure_agent/linux/apt",
         release      => $lsbdistcodename,
         repos        => "main",
@@ -32,15 +50,28 @@ class newrelic_infra::agent (
         key          => {
             'id'        => "A758B3FBCD43BE8D123A3476BB29EE038ECCE87C",
             'source'    => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
-        }
+        },
+        require      => Package['apt-transport-https'],
+        notify       => Exec['apt_update'],
+      }
+      # work around necessary to get Puppet and Apt to get along on first run, per ticket open as of this writing
+      # https://tickets.puppetlabs.com/browse/MODULES-2190?focusedCommentId=341801&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-341801
+      exec { 'newrelic_infra_apt_get_update':
+        command     => 'apt-get update',
+        cwd         => '/tmp',
+        path        => ['/usr/bin'],
+        require     => Apt::Source['newrelic_infra-agent'],
+        subscribe   => Apt::Source['newrelic_infra-agent'],
+        refreshonly => true,
       }
       package { 'newrelic-infra':
         ensure  => $ensure,
-        require => Apt::Source['newrelic_infra-agent'],
+        require => Exec['newrelic_infra_apt_get_update'],
       }
     }
     'RedHat', 'CentOS','Amazon': {
       yumrepo { 'newrelic_infra-agent':
+        ensure        => $package_repo_ensure,
         descr         => "New Relic Infrastructure",
         baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/$operatingsystemmajrelease/x86_64",
         gpgkey        => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
@@ -68,10 +99,19 @@ class newrelic_infra::agent (
     notify  => Service['newrelic-infra'] # Restarts the agent service on config changes
   }
 
-  # Setup agent service
-  service { 'newrelic-infra':
-    ensure => 'running',
-    # provider => 'upstart', # may be required for your environment in CentOS 6
-    require => Package['newrelic-infra']
+  # we use Upstart on CentOS 6 systems and derivatives, which is not the default
+  if ($::operatingsystem == 'CentOS' and $::operatingsystemmajrelease == '6') 
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2015') {
+    service { 'newrelic-infra':
+      ensure => 'running',
+      provider => 'upstart',
+      require => Package['newrelic-infra'],
+    }
+  } else {
+    # Setup agent service
+    service { 'newrelic-infra':
+      ensure => 'running',
+      require => Package['newrelic-infra'],
+    }
   }
 }
