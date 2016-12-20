@@ -25,6 +25,11 @@ platforms:
       box: bento/ubuntu-14.04
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box
 
+  - name: debian-8.6
+    driver:
+      box: bento/debian-8.6
+      box_url: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.1/providers/vmware_desktop.box
+
   # CentOS 6.8
   - name: centos-6.8
     driver:
