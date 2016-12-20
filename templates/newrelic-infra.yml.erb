@@ -1,3 +1,8 @@
 license_key: <%= @license_key %>
 
 proxy: <%= @proxy %>
+
+custom_attributes:
+<% @custom_attributes.each do |key,value|-%>
+    <%= key %>: <%= value%>
+<% end -%>

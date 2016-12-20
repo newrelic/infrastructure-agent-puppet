@@ -14,6 +14,10 @@
 #
 # [*package_repo_ensure*]
 #   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
+#
+# [*custom_attributes*]
+#   Optional hash of attributes to assign to this host (see docs https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes)
+#
 # === Authors
 #
 # New Relic, Inc.
@@ -23,6 +27,7 @@ class newrelic_infra::agent (
   $license_key  = '',
   $package_repo_ensure  = 'present',
   $proxy = '',
+  $custom_attributes = {},
 ) {
   # Validate license key
   if $license_key == '' {
