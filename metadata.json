@@ -1,6 +1,6 @@
 {
     "name": "newrelic_infra",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "New Relic, Inc.",
     "summary": "A Puppet module for installing New Relic Infrastructure Agent",
     "license": "https://github.com/newrelic/infrastructure-agent-puppet/LICENSE.md",
