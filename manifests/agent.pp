@@ -12,7 +12,7 @@
 #   This is useful in the event the newrelic-infra package has been
 #   mirrored to a repo that already exists on the system
 #
-# [*package_repo_ensure*]
+# [*proxy*]
 #   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
 #
 # [*custom_attributes*]
