@@ -64,6 +64,20 @@ Valid values include:
 
 Specifies the New Relic license key to use.
 
+##### `proxy`
+
+Optional. Set the proxy server the agent should use. Examples:
+- `https://myproxy.foo.com:8080`
+- `http://10.10.254.254`
+
+##### `custom_attributes`
+
+Optional. A hash of custom attributes to annotate the data from this agent instance.
+
+##### `package_repo_ensure`
+
+Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`
+package has been mirrored to another repo that's already present on the system (set to `absent` to achieve this)
 
 ## Limitations
 
