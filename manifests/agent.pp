@@ -70,10 +70,15 @@ class newrelic_infra::agent (
       }
     }
     'RedHat', 'CentOS','Amazon': {
+      if ($::operatingsystem == 'Amazon') {
+        $repo_releasever = "6"
+      } else {
+        $repo_releasever = $operatingsystemmajrelease
+      }
       yumrepo { 'newrelic_infra-agent':
         ensure        => $package_repo_ensure,
         descr         => "New Relic Infrastructure",
-        baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/$operatingsystemmajrelease/x86_64",
+        baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/$repo_releasever/x86_64",
         gpgkey        => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
         gpgcheck      => true,
         repo_gpgcheck => true,
@@ -101,7 +106,7 @@ class newrelic_infra::agent (
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
   if ($::operatingsystem == 'CentOS' and $::operatingsystemmajrelease == '6') 
-  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2015') {
+  or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
       ensure => 'running',
       provider => 'upstart',
