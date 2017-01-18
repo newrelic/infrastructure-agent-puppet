@@ -15,6 +15,19 @@
 # [*proxy*]
 #   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
 #
+# [*display_name*]
+#   Optional. Override the auto-generated hostname for reporting.
+#
+# [*verbose*]
+#   Optional. Enables verbose logging for the agent when set the value with 1, the default value is 0.
+#
+# [*log_file*]
+#   Optional. To log to another location, provide a full path and file name. When not set, the agent logs to the system log files.
+#   Typical default locations:
+#   - Amazon Linux, CentOS, RHEL: `/var/log/messages`
+#   - Debian, Ubuntu: `/var/log/syslog`
+#   - Windows Server: `C:\Program Files\New Relic\newrelic-infra\newrelic-infra.log`
+#
 # [*custom_attributes*]
 #   Optional hash of attributes to assign to this host (see docs https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes)
 #
