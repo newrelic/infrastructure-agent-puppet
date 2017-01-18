@@ -64,6 +64,22 @@ Valid values include:
 
 Specifies the New Relic license key to use.
 
+##### `display_name`
+
+Optional. Override the auto-generated hostname for reporting.
+
+##### `verbose`
+
+Optional. Enables verbose logging for the agent when set the value with 1, the default value is 0.
+
+##### `log_file`
+
+Optional. To log to another location, provide a full path and file name. When not set, the agent logs to the system log files.
+Typical default locations:
+- Amazon Linux, CentOS, RHEL: `/var/log/messages`
+- Debian, Ubuntu: `/var/log/syslog`
+- Windows Server: `C:\Program Files\New Relic\newrelic-infra\newrelic-infra.log`
+
 ##### `proxy`
 
 Optional. Set the proxy server the agent should use. Examples:
