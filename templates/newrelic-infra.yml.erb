@@ -2,6 +2,18 @@ license_key: <%= @license_key %>
 
 proxy: <%= @proxy %>
 
+<% unless @display_name.to_s.strip.empty? -%>
+display_name: <%= @display_name %>
+<% end -%>
+
+<% if @verbose =~ /[0-1]/  -%>
+verbose: <%= @verbose %>
+<% end -%>
+
+<% unless @log_file.to_s.strip.empty? -%>
+log_file: <%= @log_file %>
+<% end -%>
+
 custom_attributes:
 <% @custom_attributes.each do |key,value|-%>
     <%= key %>: <%= value%>
