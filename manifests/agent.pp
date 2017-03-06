@@ -72,17 +72,17 @@ class newrelic_infra::agent (
       }
       # work around necessary to get Puppet and Apt to get along on first run, per ticket open as of this writing
       # https://tickets.puppetlabs.com/browse/MODULES-2190?focusedCommentId=341801&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-341801
-      exec { 'newrelic_infra_apt_get_update':
-        command     => 'apt-get update',
-        cwd         => '/tmp',
-        path        => ['/usr/bin'],
-        require     => Apt::Source['newrelic_infra-agent'],
-        subscribe   => Apt::Source['newrelic_infra-agent'],
-        refreshonly => true,
-      }
+      # exec { 'newrelic_infra_apt_get_update':
+      #   command     => 'apt-get update',
+      #   cwd         => '/tmp',
+      #   path        => ['/usr/bin'],
+      #   require     => Apt::Source['newrelic_infra-agent'],
+      #   subscribe   => Apt::Source['newrelic_infra-agent'],
+      #   refreshonly => true,
+      # }
       package { 'newrelic-infra':
         ensure  => $ensure,
-        require => Exec['newrelic_infra_apt_get_update'],
+        #require => Exec['newrelic_infra_apt_get_update'],
       }
     }
     'RedHat', 'CentOS','Amazon': {
