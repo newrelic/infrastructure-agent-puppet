@@ -68,7 +68,7 @@ class newrelic_infra::agent (
             'source'    => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
         },
         require      => Package['apt-transport-https'],
-        notify       => Exec['apt_update'],
+        #notify       => Exec['apt_update'],
       }
       # work around necessary to get Puppet and Apt to get along on first run, per ticket open as of this writing
       # https://tickets.puppetlabs.com/browse/MODULES-2190?focusedCommentId=341801&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-341801
