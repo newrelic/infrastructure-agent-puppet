@@ -54,9 +54,7 @@ class newrelic_infra::agent (
   # Setup agent package repo
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
-      package { 'apt-transport-https':
-        ensure => 'installed',
-      }
+      ensure_packages('apt-transport-https')
       apt::source { 'newrelic_infra-agent':
         ensure       => $package_repo_ensure,
         location     => "https://download.newrelic.com/infrastructure_agent/linux/apt",
