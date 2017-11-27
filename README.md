@@ -1,14 +1,4 @@
-# newrelic-infra
-
-#### Table of Contents
-
-1. [Description](#description)
-2. [Setup - The basics of getting started with newrelic-infra](#setup)
-    * [What newrelic-infra affects](#what-newrelic-infra-affects)
-    * [Beginning with newrelic-infra](#beginning-with-newrelic-infra)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
+# newrelic-infra Puppet module
 
 ## Description
 
@@ -99,15 +89,12 @@ package has been mirrored to another repo that's already present on the system (
 
 ### Platforms
 
-- RHEL
-  - CentOS 7
-  - CentOS 6
-- Ubuntu
-  - 16 Xenial
-  - 14 Trusty
-  - 12 Precise
-- Debian
-  - 8 Jessie
-  - 7 Wheezy
+* Amazon Linux all versions
+* CentOS version 6 or higher
+* Debian version 7 ("Wheezy") or higher
+* Red Hat Enterprise Linux (RHEL) version 6 or higher
+* Ubuntu versions 12.04.*, 14.04.*, and 16.04.* (LTS versions)
+
+## License
 
 Copyright (c) 2016 New Relic, Inc. All rights reserved.
