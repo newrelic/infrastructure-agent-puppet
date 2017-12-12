@@ -4,6 +4,9 @@
 # [*ensure*]
 #   Infrastructure agent version ('absent' will uninstall)
 #
+# [*service_ensure*]
+#   Infrastructure agent service status (default 'running')
+#
 # [*license_key*]
 #   New Relic license key
 #
@@ -36,14 +39,15 @@
 # New Relic, Inc.
 #
 class newrelic_infra::agent (
-  $ensure       = 'latest',
-  $license_key  = '',
+  $ensure               = 'latest',
+  $service_ensure       = 'running',
+  $license_key          = '',
   $package_repo_ensure  = 'present',
-  $proxy = '',
-  $display_name = '',
-  $verbose = '',
-  $log_file = '',
-  $custom_attributes = {},
+  $proxy                = '',
+  $display_name         = '',
+  $verbose              = '',
+  $log_file             = '',
+  $custom_attributes    = {},
 ) {
   # Validate license key
   if $license_key == '' {
@@ -122,14 +126,16 @@ class newrelic_infra::agent (
   if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
   or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
-      ensure => 'running',
-      provider => 'upstart',
+      ensure  => $service_ensure,
+      start   => '/sbin/start newrelic-infra',
+      stop    => '/sbin/stop newrelic-infra',
+      status  => '/sbin/status newrelic-infra',
       require => Package['newrelic-infra'],
     }
   } else {
     # Setup agent service
     service { 'newrelic-infra':
-      ensure => 'running',
+      ensure => $service_ensure,
       require => Package['newrelic-infra'],
     }
   }
