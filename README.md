@@ -1,5 +1,7 @@
 # newrelic-infra Puppet module
 
+[![Build Status](https://travis-ci.org/newrelic/infrastructure-agent-puppet.svg?branch=master)](https://travis-ci.org/newrelic/infrastructure-agent-puppet)
+
 ## Description
 
 This module installs and configures the New Relic Infrastructure agent.
@@ -8,8 +10,8 @@ This module installs and configures the New Relic Infrastructure agent.
 
 ### What newrelic-infra affects
 
-- Adds the New Relic Infrastructure package repository source
-- Installs and configures the New Relic Infrastructure agent
+* Adds the New Relic Infrastructure package repository source
+* Installs and configures the New Relic Infrastructure agent
 
 ### Beginning with newrelic-infra
 
@@ -66,15 +68,17 @@ Optional. Enables verbose logging for the agent when set the value with 1, the d
 
 Optional. To log to another location, provide a full path and file name. When not set, the agent logs to the system log files.
 Typical default locations:
-- Amazon Linux, CentOS, RHEL: `/var/log/messages`
-- Debian, Ubuntu: `/var/log/syslog`
-- Windows Server: `C:\Program Files\New Relic\newrelic-infra\newrelic-infra.log`
+
+* Amazon Linux, CentOS, RHEL: `/var/log/messages`
+* Debian, Ubuntu: `/var/log/syslog`
+* Windows Server: `C:\Program Files\New Relic\newrelic-infra\newrelic-infra.log`
 
 ##### `proxy`
 
 Optional. Set the proxy server the agent should use. Examples:
-- `https://myproxy.foo.com:8080`
-- `http://10.10.254.254`
+
+* `https://myproxy.foo.com:8080`
+* `http://10.10.254.254`
 
 ##### `custom_attributes`
 
@@ -93,7 +97,7 @@ package has been mirrored to another repo that's already present on the system (
 * CentOS version 6 or higher
 * Debian version 7 ("Wheezy") or higher
 * Red Hat Enterprise Linux (RHEL) version 6 or higher
-* Ubuntu versions 12.04.*, 14.04.*, and 16.04.* (LTS versions)
+* Ubuntu versions 12.04._, 14.04._, and 16.04.\* (LTS versions)
 
 ## License
 

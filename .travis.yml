@@ -1,0 +1,7 @@
+branches:
+  only:
+    - master
+cache: bundler
+dist: trusty
+sudo: false
+script: bundle exec puppet-lint --no-autoloader_layout-check Puppetfile **/*.pp
