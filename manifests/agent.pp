@@ -51,7 +51,7 @@ class newrelic_infra::agent (
 ) {
   # Validate license key
   if $license_key == '' {
-    fail("New Relic license key not provided")
+    fail('New Relic license key not provided')
   }
 
 
@@ -61,13 +61,13 @@ class newrelic_infra::agent (
       ensure_packages('apt-transport-https')
       apt::source { 'newrelic_infra-agent':
         ensure       => $package_repo_ensure,
-        location     => "https://download.newrelic.com/infrastructure_agent/linux/apt",
-        release      => $lsbdistcodename,
-        repos        => "main",
-        architecture => "amd64",
+        location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
+        release      => $::lsbdistcodename,
+        repos        => 'main',
+        architecture => 'amd64',
         key          => {
-            'id'        => "A758B3FBCD43BE8D123A3476BB29EE038ECCE87C",
-            'source'    => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
+            'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
+            'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
         },
         require      => Package['apt-transport-https'],
         notify       => Exec['apt_update'],
@@ -89,15 +89,15 @@ class newrelic_infra::agent (
     }
     'RedHat', 'CentOS','Amazon': {
       if ($::operatingsystem == 'Amazon') {
-        $repo_releasever = "6"
+        $repo_releasever = '6'
       } else {
-        $repo_releasever = $operatingsystemmajrelease
+        $repo_releasever = $::operatingsystemmajrelease
       }
       yumrepo { 'newrelic_infra-agent':
         ensure        => $package_repo_ensure,
-        descr         => "New Relic Infrastructure",
-        baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/$repo_releasever/x86_64",
-        gpgkey        => "https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg",
+        descr         => 'New Relic Infrastructure',
+        baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
+        gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
         gpgcheck      => true,
         repo_gpgcheck => true,
       }
@@ -135,7 +135,7 @@ class newrelic_infra::agent (
   } else {
     # Setup agent service
     service { 'newrelic-infra':
-      ensure => $service_ensure,
+      ensure  => $service_ensure,
       require => Package['newrelic-infra'],
     }
   }
