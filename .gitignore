@@ -4,5 +4,6 @@
 .tmp
 Gemfile.lock
 Puppetfile.lock
+pkg/*
 *.swp
 *~

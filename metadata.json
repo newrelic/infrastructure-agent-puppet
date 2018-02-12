@@ -1,49 +1,35 @@
 {
-    "name": "newrelic_infra",
-    "version": "0.1.0",
-    "author": "New Relic, Inc.",
-    "summary": "A Puppet module for installing New Relic Infrastructure Agent",
-    "license": "https://github.com/newrelic/infrastructure-agent-puppet/LICENSE.md",
-    "source": "https://github.com/newrelic/infrastructure-agent-puppet",
-    "project_page": "https://github.com/newrelic/infrastructure-agent-puppet",
-    "issues_url": "https://github.com/newrelic/infrastructure-agent-puppet/issues",
-    "operatingsystem_support": [
-      {
-        "operatingsystem": "Debian",
-        "operatingsystemrelease": [
-          "7",
-          "8",
-          "9"
-        ]
-      },
-      {
-        "operatingsystem": "CentOS",
-        "operatingsystemrelease": [
-          "6",
-          "7"
-        ]
-      },
-      {
-        "operatingsystem": "RedHat",
-        "operatingsystemrelease": [
-          "6",
-          "7"
-        ]
-      },
-      {
-        "operatingsystem": "Ubuntu",
-        "operatingsystemrelease": [
-          "12.04",
-          "14.04",
-          "16.04"
-        ]
-      }
-    ],
-    "requirements": [
-      { "name": "puppet", "version_requirement": "3.x" }
-    ],
-    "dependencies": [
-      { "name": "puppetlabs-apt", "version_requirement": ">=2.3.0"},
-      { "name": "puppetlabs-stdlib", "version_requirement": ">=4.2.0" }
-    ]
+  "name": "newrelic-infra",
+  "version": "0.2.0",
+  "author": "New Relic, Inc.",
+  "summary": "A Puppet module for installing New Relic Infrastructure Agent",
+  "license":
+    "https://github.com/newrelic/infrastructure-agent-puppet/LICENSE.md",
+  "source": "https://github.com/newrelic/infrastructure-agent-puppet",
+  "project_page": "https://github.com/newrelic/infrastructure-agent-puppet",
+  "issues_url":
+    "https://github.com/newrelic/infrastructure-agent-puppet/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["7", "8", "9"]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": ["6", "7"]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": ["6", "7"]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": ["12.04", "14.04", "16.04"]
+    }
+  ],
+  "requirements": [{ "name": "puppet", "version_requirement": "3.x" }],
+  "dependencies": [
+    { "name": "puppetlabs-apt", "version_requirement": ">=2.3.0" },
+    { "name": "puppetlabs-stdlib", "version_requirement": ">=4.2.0" }
+  ]
 }
