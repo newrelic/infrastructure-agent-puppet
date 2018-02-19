@@ -11,6 +11,4 @@ deploy:
   provider: puppetforge
   user: newrelic
 dist: trusty
-script: skip
 sudo: false
-script: bundle exec puppet-lint --no-autoloader_layout-check Puppetfile **/*.pp
