@@ -108,17 +108,18 @@ class newrelic_infra::agent (
     }
     'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
-      $repo_releasever = $::operatingsystemrelease
-      exec {'add_newrelic_repo':
+      exec { 'add_newrelic_repo':
         creates => '/etc/zypp/repos.d/newrelic-infra.repo',
-        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/beta/linux/zypp/sles/${repo_releasever}/x86_64/newrelic-infra.repo",
-        path    => '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin',
+        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/beta/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
+        path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+        notify  => Exec['install_newrelic_agent']
       }
       # work around necessary because pacakge doesn't have Zypp provider in the puppet SLES version 
       exec { 'install_newrelic_agent':
-        command => '/usr/bin/zypper install -y newrelic-infra',
-        path    => '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin',
-        require => Exec['add_newrelic_repo']
+        command     => '/usr/bin/zypper install -y newrelic-infra',
+        path        => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+        require     => Exec['add_newrelic_repo'],
+        refreshonly => true,
       }
     }
     default: {
@@ -147,7 +148,7 @@ class newrelic_infra::agent (
       status  => '/sbin/status newrelic-infra',
       require => Package['newrelic-infra'],
     }
-  }elsif $::operatingsystem == 'SLES' {
+  } elsif $::operatingsystem == 'SLES' {
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
       ensure  => $service_ensure,
