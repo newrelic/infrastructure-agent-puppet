@@ -54,7 +54,6 @@ class newrelic_infra::agent (
     fail('New Relic license key not provided')
   }
 
-
   # Setup agent package repo
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
@@ -87,7 +86,7 @@ class newrelic_infra::agent (
         require => Exec['newrelic_infra_apt_get_update'],
       }
     }
-    'RedHat', 'CentOS','Amazon': {
+    'RedHat', 'CentOS', 'Amazon': {
       if ($::operatingsystem == 'Amazon') {
         $repo_releasever = '6'
       } else {
@@ -106,7 +105,7 @@ class newrelic_infra::agent (
         require => Yumrepo['newrelic_infra-agent'],
       }
     }
-    'SLES': {
+    'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
       exec { 'add_newrelic_repo':
         creates => '/etc/zypp/repos.d/newrelic-infra.repo',

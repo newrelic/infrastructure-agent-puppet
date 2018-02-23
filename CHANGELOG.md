@@ -1,6 +1,6 @@
 # newrelic-infra Puppet module CHANGELOG
 
-## 0.3.0 (2018-02-19)
+## 0.3.0 (2018-02-23)
 
 IMPROVEMENTS:
 
@@ -9,6 +9,7 @@ IMPROVEMENTS:
 * Specify upper limit to dependencies in manfiest.json
 * Add metadata-json-lint to lint metadata.json
 * Add Rakefile and Rake tasks for linting
+* Add SLES support
 
 ## 0.2.0 (2018-02-09)
 
