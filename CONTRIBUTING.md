@@ -37,5 +37,6 @@ Use `bundle exec kitchen` to run commands.
 ## Contributors
 
 * Phil McArdle (@philmcardle)
+* Ruben Hervas (@xino12)
 * Nathan Smith (@smith)
 * Amir Yalon (@amiryal)
