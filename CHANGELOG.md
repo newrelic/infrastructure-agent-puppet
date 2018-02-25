@@ -1,5 +1,12 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.3.1 (2018-02-25)
+
+IMPROVEMENTS:
+
+* Add syntax checking to Rake tasks
+* Update version compatibility metadata
+
 ## 0.3.0 (2018-02-23)
 
 IMPROVEMENTS:
