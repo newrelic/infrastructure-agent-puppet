@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.4.0 (2018-05-16)
+
+IMPROVEMENTS:
+
+* Prevent failure on Oracle Linux
+
 ## 0.3.1 (2018-02-25)
 
 IMPROVEMENTS:
