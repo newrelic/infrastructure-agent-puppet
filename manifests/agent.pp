@@ -90,10 +90,7 @@ class newrelic_infra::agent (
       if ($::operatingsystem == 'Amazon') {
         $repo_releasever = '6'
       } 
-      if ($::operatingsystem == 'OracleLinux') {
-        $repo_releasever = $::operatingsystemmajrelease
-      }
-        else {
+      else {
         $repo_releasever = $::operatingsystemmajrelease
       }
       yumrepo { 'newrelic_infra-agent':
