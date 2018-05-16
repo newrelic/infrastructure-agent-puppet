@@ -86,10 +86,14 @@ class newrelic_infra::agent (
         require => Exec['newrelic_infra_apt_get_update'],
       }
     }
-    'RedHat', 'CentOS', 'Amazon': {
+    'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
       if ($::operatingsystem == 'Amazon') {
         $repo_releasever = '6'
-      } else {
+      } 
+      if ($::operatingsystem == 'OracleLinux') {
+        $repo_releasever = $::operatingsystemmajrelease
+      }
+        else {
         $repo_releasever = $::operatingsystemmajrelease
       }
       yumrepo { 'newrelic_infra-agent':
