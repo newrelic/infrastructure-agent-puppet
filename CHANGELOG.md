@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.5.0 (2018-05-23)
+
+IMPROVEMENTS:
+
+* Add `custom_configs` option
+
 ## 0.4.0 (2018-05-16)
 
 IMPROVEMENTS:
