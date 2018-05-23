@@ -34,6 +34,9 @@
 # [*custom_attributes*]
 #   Optional hash of attributes to assign to this host (see docs https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes)
 #
+# [*custom_configs*]
+#   Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
+#   {'payload_compression' => 0, 'selinux_enable_semodule' => false}
 # === Authors
 #
 # New Relic, Inc.
@@ -48,6 +51,7 @@ class newrelic_infra::agent (
   $verbose              = '',
   $log_file             = '',
   $custom_attributes    = {},
+  $custom_configs       = {},
 ) {
   # Validate license key
   if $license_key == '' {
