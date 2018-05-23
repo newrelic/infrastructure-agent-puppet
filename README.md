@@ -84,6 +84,12 @@ Optional. Set the proxy server the agent should use. Examples:
 
 Optional. A hash of custom attributes to annotate the data from this agent instance.
 
+##### `custom_configs`
+
+Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
+
+{'payload_compression' => 0, 'selinux_enable_semodule' => false}
+
 ##### `package_repo_ensure`
 
 Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`

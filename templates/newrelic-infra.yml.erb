@@ -18,3 +18,5 @@ custom_attributes:
 <% @custom_attributes.each do |key,value|-%>
     <%= key %>: <%= value%>
 <% end -%>
+
+<%= @custom_configs.to_yaml.sub(/.*?\n/, '') %>
