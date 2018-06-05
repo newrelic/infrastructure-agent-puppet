@@ -146,9 +146,7 @@ class newrelic_infra::agent (
   or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
       ensure  => $service_ensure,
-      start   => '/sbin/start newrelic-infra',
-      stop    => '/sbin/stop newrelic-infra',
-      status  => '/sbin/status newrelic-infra',
+      provider => 'upstart',
       require => Package['newrelic-infra'],
     }
   } elsif $::operatingsystem == 'SLES' {
