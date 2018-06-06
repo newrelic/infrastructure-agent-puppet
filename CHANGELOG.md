@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.5.1 (2018-06-04)
+
+BUG FIXES:
+
+* Use Upstart for RHEL 6 and Amazon
+
 ## 0.5.0 (2018-05-23)
 
 IMPROVEMENTS:
