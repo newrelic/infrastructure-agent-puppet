@@ -66,7 +66,7 @@ class newrelic_infra::integrations (
         path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
         require => Exec['add_newrelic_repo'],
         creates => '/var/db/newrelic-infra/newrelic-integrations/bin/nr-apache'
-      }      
+      }
     }
     default: {
       fail('New Relic Integrations package is not yet supported on this platform')
