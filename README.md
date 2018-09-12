@@ -95,6 +95,15 @@ Optional. A hash of agent configuration directives that are not exposed explicit
 Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`
 package has been mirrored to another repo that's already present on the system (set to `absent` to achieve this)
 
+### Installing the Infrastructure integrations
+
+In order to install `newrelic-infra-integrations` package you can use the main `integrations` class.
+
+```ruby
+class { 'newrelic_infra::integrations':
+}
+```
+
 ## Limitations
 
 ### Platforms

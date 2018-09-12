@@ -113,7 +113,7 @@ class newrelic_infra::agent (
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
       exec { 'add_newrelic_repo':
         creates => '/etc/zypp/repos.d/newrelic-infra.repo',
-        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/beta/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
+        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
         path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
         notify  => Exec['install_newrelic_agent']
       }
