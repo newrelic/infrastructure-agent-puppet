@@ -3,7 +3,7 @@ license_key: <%= @license_key %>
 proxy: <%= @proxy %>
 
 <% unless @display_name.to_s.strip.empty? -%>
-display_name: <%= @display_name %>
+display_name: '<%= @display_name %>'
 <% end -%>
 
 <% if @verbose =~ /[0-1]/  -%>

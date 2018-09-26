@@ -1,5 +1,13 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.5.2 (Unreleased)
+
+BUG FIXES:
+
+* Potential **BREAKING CHANGE**. Surround `display_name` in single quotes in YAML file so that additional characters can 
+be used. This is a potential BC break as a workaround for this would be to surround the display name in quotes manually, 
+if this is done the display name will now have additional quotes around it.
+
 ## 0.5.1 (2018-06-04)
 
 BUG FIXES:
