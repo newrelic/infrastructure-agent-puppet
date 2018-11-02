@@ -125,20 +125,45 @@ class newrelic_infra::agent (
         refreshonly => true,
       }
     }
+    'windows': {
+      # download the new relic infrastructure msi file
+      file { 'download_newrelic_agent':
+        path => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
+        source => 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
+        ensure => file,
+      }
+
+      package { 'newrelic-infra':
+        name => 'New Relic Infrastructure Agent',
+        ensure => 'installed',
+        source => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
+        require => File['download_newrelic_agent'],
+      }
+    }
     default: {
       fail('New Relic Infrastructure agent is not yet supported on this platform')
     }
   }
 
-
-  # Setup agent config
-  file { '/etc/newrelic-infra.yml':
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0640',
-    content => template('newrelic_infra/newrelic-infra.yml.erb'),
-    notify  => Service['newrelic-infra'] # Restarts the agent service on config changes
+  if $::operatingsystem != 'windows' {
+    # Setup agent config
+    file { '/etc/newrelic-infra.yml':
+      ensure  => 'present',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0640',
+      content => template('newrelic_infra/newrelic-infra.yml.erb'),
+      notify  => Service['newrelic-infra'] # Restarts the agent service on config changes
+    }
+  }
+  else {
+    file { 'newrelic_config_file':
+      name => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
+      ensure => file,
+      content => template('newrelic_infra/newrelic-infra.yml.erb'),
+      require => Package['newrelic-infra'],
+      notify => Service['newrelic-infra'], # Restarts the agent service on config changes
+    }
   }
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
@@ -166,3 +191,4 @@ class newrelic_infra::agent (
     }
   }
 }
+
