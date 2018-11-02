@@ -1,5 +1,12 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.6.0 (2018-11-02)
+
+IMPROVEMENTS:
+
+* Add Support for Ubuntu 18.04 (bionic)
+* Add Support for Windows
+
 ## 0.5.1 (2018-06-04)
 
 BUG FIXES:
