@@ -112,7 +112,7 @@ class { 'newrelic_infra::integrations':
 * CentOS version 6 or higher
 * Debian version 7 ("Wheezy") or higher
 * Red Hat Enterprise Linux (RHEL) version 6 or higher
-* Ubuntu versions 12.04._, 14.04._, and 16.04.\* (LTS versions)
+* Ubuntu versions 12.04._, 14.04._, 16.04._, and 18.04_ (LTS versions)
 
 ## License
 

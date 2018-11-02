@@ -43,3 +43,4 @@ Use `bundle exec kitchen` to run commands.
 * Irfan Patel (@irfanypatel)
 * Alejandro Do Nascimento (@alejandrodnm)
 * Lee Boynton (@lboynton)
+* Jonatan Bernal (@els-bernalj)
