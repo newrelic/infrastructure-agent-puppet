@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.6.1 (2018-11-08)
+
+BUG FIXES:
+
+* Specify correct version in metadata.json
+
 ## 0.6.0 (2018-11-02)
 
 IMPROVEMENTS:
