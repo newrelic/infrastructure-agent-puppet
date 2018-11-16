@@ -1,5 +1,5 @@
 # == Class: newrelic_infra::integrations
-# 
+#
 class newrelic_infra::integrations (
   $ensure               = 'latest',
   $package_repo_ensure  = 'present',
@@ -48,7 +48,7 @@ class newrelic_infra::integrations (
         baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
         gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
         gpgcheck      => true,
-        repo_gpgcheck => true,
+        repo_gpgcheck => $repo_releasever != '5',
       }
       package { 'newrelic-infra-integrations':
         ensure  => $ensure,

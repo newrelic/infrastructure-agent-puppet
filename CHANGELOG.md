@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.7.0 (2018-11-16)
+
+IMPROVEMENTS:
+
+* Add Support for Centos 5
+
 ## 0.6.1 (2018-11-08)
 
 BUG FIXES:

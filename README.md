@@ -109,10 +109,11 @@ class { 'newrelic_infra::integrations':
 ### Platforms
 
 * Amazon Linux all versions
-* CentOS version 6 or higher
+* CentOS version 5 or higher
 * Debian version 7 ("Wheezy") or higher
-* Red Hat Enterprise Linux (RHEL) version 6 or higher
+* Red Hat Enterprise Linux (RHEL) version 5 or higher
 * Ubuntu versions 12.04._, 14.04._, 16.04._, and 18.04_ (LTS versions)
+* Windows 2008, 2012 and 2016
 
 ## License
 

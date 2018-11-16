@@ -11,6 +11,7 @@ provisioner:
   require_chef_for_busser: false
 
 platforms:
+  - name: centos-5
   - name: centos-6
   - name: centos-7
   - name: debian-7
