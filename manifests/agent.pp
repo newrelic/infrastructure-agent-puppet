@@ -37,6 +37,12 @@
 # [*custom_configs*]
 #   Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
 #   {'payload_compression' => 0, 'selinux_enable_semodule' => false}
+#
+# [*windows_provider*]
+#   Options. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows
+#   the windows provider to be used if another provider such as Chocolatey has been specified as the default
+#   provider in the puppet installation.
+#
 # === Authors
 #
 # New Relic, Inc.
@@ -52,6 +58,7 @@ class newrelic_infra::agent (
   $log_file             = '',
   $custom_attributes    = {},
   $custom_configs       = {},
+  $windows_provider     = 'windows',  
 ) {
   # Validate license key
   if $license_key == '' {
@@ -138,6 +145,7 @@ class newrelic_infra::agent (
         ensure => 'installed',
         source => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
         require => File['download_newrelic_agent'],
+        provider => $windows_provider,
       }
     }
     default: {
