@@ -37,6 +37,12 @@
 # [*custom_configs*]
 #   Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
 #   {'payload_compression' => 0, 'selinux_enable_semodule' => false}
+#
+# [*windows_provider*]
+#   Options. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows
+#   the windows provider to be used if another provider such as Chocolatey has been specified as the default
+#   provider in the puppet installation.
+#
 # === Authors
 #
 # New Relic, Inc.
@@ -52,6 +58,7 @@ class newrelic_infra::agent (
   $log_file             = '',
   $custom_attributes    = {},
   $custom_configs       = {},
+  $windows_provider     = 'windows',
 ) {
   # Validate license key
   if $license_key == '' {
@@ -128,16 +135,17 @@ class newrelic_infra::agent (
     'windows': {
       # download the new relic infrastructure msi file
       file { 'download_newrelic_agent':
-        path => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
-        source => 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
         ensure => file,
+        path   => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
+        source => 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
       }
 
       package { 'newrelic-infra':
-        name => 'New Relic Infrastructure Agent',
-        ensure => 'installed',
-        source => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
-        require => File['download_newrelic_agent'],
+        ensure   => 'installed',
+        name     => 'New Relic Infrastructure Agent',
+        source   => 'C:\users\Administrator\Downloads\newrelic-infra.msi',
+        require  => File['download_newrelic_agent'],
+        provider => $windows_provider,
       }
     }
     default: {
@@ -158,11 +166,11 @@ class newrelic_infra::agent (
   }
   else {
     file { 'newrelic_config_file':
-      name => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
-      ensure => file,
+      ensure  => file,
+      name    => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
       content => template('newrelic_infra/newrelic-infra.yml.erb'),
       require => Package['newrelic-infra'],
-      notify => Service['newrelic-infra'], # Restarts the agent service on config changes
+      notify  => Service['newrelic-infra'], # Restarts the agent service on config changes
     }
   }
 
@@ -170,9 +178,9 @@ class newrelic_infra::agent (
   if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
   or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
-      ensure  => $service_ensure,
+      ensure   => $service_ensure,
       provider => 'upstart',
-      require => Package['newrelic-infra'],
+      require  => Package['newrelic-infra'],
     }
   } elsif $::operatingsystem == 'SLES' {
     # Setup agent service for sysv-init service manager
@@ -191,4 +199,3 @@ class newrelic_infra::agent (
     }
   }
 }
-
