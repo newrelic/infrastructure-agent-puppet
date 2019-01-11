@@ -1,6 +1,6 @@
 # newrelic-infra Puppet module CHANGELOG
 
-## 0.7.1 (2018-11-16)
+## 0.7.1 (2019-01-14)
 
 IMPROVEMENTS:
 
