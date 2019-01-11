@@ -115,6 +115,18 @@ class { 'newrelic_infra::integrations':
 * Ubuntu versions 12.04._, 14.04._, 16.04._, and 18.04_ (LTS versions)
 * Windows 2008, 2012 and 2016
 
+## Release to PuppetForge
+
+To release a new version to [PuppetForge][1] follow this steps:
+
+* Update the [CHANGELOG.md](CHANGELOG.md)
+* Increase the version in [metadata.json](metadata.json)
+* Create a new Github release: the release process will be executed
+  in [TravisCI][2]
+
 ## License
 
 Copyright (c) 2016 New Relic, Inc. All rights reserved.
+
+[1]: https://forge.puppet.com/newrelic/newrelic_infra
+[2]: https://travis-ci.org/newrelic/infrastructure-agent-puppet/
