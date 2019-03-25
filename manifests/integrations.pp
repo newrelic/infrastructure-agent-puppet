@@ -1,10 +1,9 @@
 # == Class: newrelic_infra::integrations
 #
 class newrelic_infra::integrations (
-  $ensure               = 'latest',
-  $package_repo_ensure  = 'present',
+  $integrations = {},
+  $package_repo_ensure  = 'present'
 ) {
-
   # Setup agent package repo
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
@@ -31,10 +30,7 @@ class newrelic_infra::integrations (
         subscribe   => Apt::Source['newrelic_infra-agent'],
         refreshonly => true,
       }
-      package { 'newrelic-infra-integrations':
-          ensure  => $ensure,
-          require => Exec['newrelic_infra_integrations_apt_get_update'],
-      }
+      Exec['newrelic_infra_integrations_apt_get_update'] -> ensure_packages($integrations)
     }
     'RedHat', 'CentOS','Amazon': {
       if ($::operatingsystem == 'Amazon') {
@@ -50,10 +46,7 @@ class newrelic_infra::integrations (
         gpgcheck      => true,
         repo_gpgcheck => $repo_releasever != '5',
       }
-      package { 'newrelic-infra-integrations':
-        ensure  => $ensure,
-      }
-    }
+      ensure_packages($integrations) }
     'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
       exec { 'add_newrelic-integrations_repo':
@@ -61,11 +54,16 @@ class newrelic_infra::integrations (
         command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
         path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
       }
-      exec { 'install_newrelic_integrations':
-        command => '/usr/bin/zypper install -y newrelic-infra-integrations',
-        path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-        require => Exec['add_newrelic_repo'],
-        creates => '/var/db/newrelic-infra/newrelic-integrations/bin/nr-apache'
+
+      keys($integrations).each | Integer $i, String $integration_name | {
+        if $integrations[$integraion_name]['ensure'] == 'present' {
+          exec { "install_${integration_name}":
+            command => "/usr/bin/zypper install -y ${integration_name}",
+            path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+            require => Exec['add_newrelic-integrations_repo'],
+            creates => '/var/db/newrelic-infra/newrelic-integrations/bin/nr-apache'
+          }
+        }
       }
     }
     default: {
