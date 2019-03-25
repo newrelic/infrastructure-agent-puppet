@@ -1,5 +1,13 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.8.0
+
+IMPROVEMENTS:
+
+* Add support for installing individual integrations. The module switches from 
+  the deprecated `newrelic-infra-integrations` package (which only 
+  included 5 integrations), to the `nri-*` individual integration packages.
+
 ## 0.7.1 (2019-01-14)
 
 IMPROVEMENTS:

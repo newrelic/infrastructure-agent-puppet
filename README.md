@@ -95,14 +95,76 @@ Optional. A hash of agent configuration directives that are not exposed explicit
 Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`
 package has been mirrored to another repo that's already present on the system (set to `absent` to achieve this)
 
-### Installing the Infrastructure integrations
+### Installing the Infrastructure On-host integrations
 
-In order to install `newrelic-infra-integrations` package you can use the main `integrations` class.
+In order to install integrations you can use the `integrations` class. The list
+of available integrations can be found [here][3].
+
+The `newrelic_infra::integrations`, has a parameter named `integrations` which
+should be a hash of:
+
+```
+{
+  '<integration_package>' => { ensure => <state> },
+  ...
+}
+```
+
+The integrations package name is located in the **Install and activate**
+section of the individual integrations docs. They use the following convention,
+name of the service with the `nri-` prefix (`nri-apache`, `nri-redis`, ...).
 
 ```ruby
 class { 'newrelic_infra::integrations':
+  integrations => {
+    'nri-mysql' => { ensure => present },
+    'nri-redis' => { ensure => latest },
+    'nri-rabbitmq' => { ensure => absent }
+  }
 }
 ```
+
+The source code for each integration is available on [newrelic's github organization][4].
+
+#### On removing newrelic-infra-integrations package and its bundled integrations
+
+**NOTE** *This only applies if you have the `newrelic-infra-integrations` 
+package installed*
+
+If you had installed the `newrelic-infra-integrations` package, 
+could be because you were using the previous versions of this module, or you 
+installed it some other way; and you want to do some cleanup by
+removing it or any of the following integrations (the ones that came bundle
+with it):
+
+- nri-redis
+- nri-cassandra
+- nri-apache
+- nri-nginx
+- nri-mysql
+
+You have to add `newrelic-infra-integrations` as the first item of the 
+`integrations` hash argument with an `ensure => absent`.
+
+```ruby
+class { 'newrelic_infra::integrations':
+  integrations => {
+    'newrelic-infra-integrations' => { ensure => absent },
+    'nri-mysql'                   => { ensure => absent },
+    'nri-redis'                   => { ensure => latest },
+  }
+}
+```
+
+Otherwise you might get the following error:
+
+```
+Error: Execution of '/bin/rpm -e nri-mysql-1.1.5-1.x86_64' returned 1: error: Failed dependencies:
+        nri-mysql is needed by (installed) newrelic-infra-integrations-0:1.7.0-1.x86_64
+```
+
+That is because the `newrelic-infra-integrations`, has a dependency on those 
+packages, so you need to remove it first, before removing any of the other.
 
 ## Limitations
 
@@ -130,3 +192,5 @@ Copyright (c) 2016 New Relic, Inc. All rights reserved.
 
 [1]: https://forge.puppet.com/newrelic/newrelic_infra
 [2]: https://travis-ci.org/newrelic/infrastructure-agent-puppet/
+[3]: https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list
+[4]: https://github.com/search?l=&p=1&q=nri-+user%3Anewrelic&ref=advsearch&type=Repositories&utf8=%E2%9C%93

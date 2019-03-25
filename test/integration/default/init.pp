@@ -2,4 +2,6 @@ class { 'newrelic_infra::agent':
   ensure      => 'latest',
   license_key => 'YOUR_NR_LICENSE_KEY',
 }
--> class { 'newrelic_infra::integrations': }
+-> class { 'newrelic_infra::integrations':
+  integrations => { 'nri-nginx' => { ensure => present } }
+}
