@@ -4,8 +4,8 @@
 
 IMPROVEMENTS:
 
-* Add support for installing individual integrations. The module switches from 
-  the deprecated `newrelic-infra-integrations` package (which only 
+* Add support for installing individual integrations. The module switches from
+  the deprecated `newrelic-infra-integrations` package (which only
   included 5 integrations), to the `nri-*` individual integration packages.
 
 ## 0.7.1 (2019-01-14)
@@ -15,8 +15,8 @@ IMPROVEMENTS:
 BUG FIXES:
 
 * Fix installation in Windows when the default provider for puppet was
-  set to something different than `windows`. Now the provider for 
-  installing the package can be specify with `windows_provider`, when 
+  set to something different than `windows`. Now the provider for
+  installing the package can be specify with `windows_provider`, when
   not set, it defaults to `windows`
 
 ## 0.7.0 (2018-11-16)

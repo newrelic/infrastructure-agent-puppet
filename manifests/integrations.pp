@@ -48,21 +48,36 @@ class newrelic_infra::integrations (
       }
       ensure_packages($integrations, { require => Yumrepo['newrelic_infra-integrations'] })
     }
-    'SLES': {
+    'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
-      exec { 'add_newrelic-integrations_repo':
+      exec { 'download_newrelic_integrations_gpg_key':
+        command => '/usr/bin/wget https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg -O /opt/newrelic_infra.gpg',
+        creates => '/opt/newrelic_infra.gpg',
+      } ~>
+      exec { 'import_newrelic_integrations_gpg_key':
+        command    => '/bin/rpm --import /opt/newrelic_infra.gpg',
+        refreshonly => true
+      } ->
+      exec { 'add_newrelic_integrations_repo':
         creates => '/etc/zypp/repos.d/newrelic-infra.repo',
-        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
+        command => "/usr/bin/zypper addrepo --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
         path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
       }
 
       keys($integrations).each | Integer $i, String $integration_name | {
-        if $integrations[$integraion_name]['ensure'] == 'present' {
+        if $integrations[$integration_name]['ensure'] in ['present', 'latest'] {
           exec { "install_${integration_name}":
             command => "/usr/bin/zypper install -y ${integration_name}",
             path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-            require => Exec['add_newrelic-integrations_repo'],
-            creates => '/var/db/newrelic-infra/newrelic-integrations/bin/nr-apache'
+            require => Exec['add_newrelic_integrations_repo'],
+            unless => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
+          }
+        }
+        elsif $integrations[$integration_name]['ensure'] == 'absent' {
+          exec { "install_${integration_name}":
+            command => "/usr/bin/zypper remove -y ${integration_name}",
+            path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+            onlyif  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
           }
         }
       }
