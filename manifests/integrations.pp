@@ -30,7 +30,7 @@ class newrelic_infra::integrations (
         subscribe   => Apt::Source['newrelic_infra-agent'],
         refreshonly => true,
       }
-      Exec['newrelic_infra_integrations_apt_get_update'] -> ensure_packages($integrations)
+      ensure_packages($integrations, { require => Exec['newrelic_infra_integrations_apt_get_update'] })
     }
     'RedHat', 'CentOS','Amazon': {
       if ($::operatingsystem == 'Amazon') {
@@ -46,7 +46,8 @@ class newrelic_infra::integrations (
         gpgcheck      => true,
         repo_gpgcheck => $repo_releasever != '5',
       }
-      ensure_packages($integrations) }
+      ensure_packages($integrations, { require => Yumrepo['newrelic_infra-integrations'] })
+    }
     'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
       exec { 'add_newrelic-integrations_repo':

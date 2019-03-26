@@ -126,7 +126,7 @@ class { 'newrelic_infra::integrations':
 
 The source code for each integration is available on [newrelic's github organization][4].
 
-#### On removing newrelic-infra-integrations package and its bundled integrations
+#### Removing newrelic-infra-integrations package and its bundled integrations
 
 **NOTE** *This only applies if you have the `newrelic-infra-integrations` 
 package installed*
