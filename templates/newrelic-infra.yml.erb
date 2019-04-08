@@ -14,6 +14,26 @@ verbose: <%= @verbose %>
 log_file: <%= @log_file %>
 <% end -%>
 
+<% if @facter_interval_sec -%>
+facter_interval_sec: <%= @facter_interval_sec %>
+<% end -%>
+
+<% if @rpm_interval_sec -%>
+rpm_interval_sec: <%= @rpm_interval_sec %>
+<% end -%>
+
+<% if @selinux_interval_sec -%>
+selinux_interval_sec: <%= @selinux_interval_sec %>
+<% end -%>
+
+<% if @sysctl_interval_sec -%>
+sysctl_interval_sec: <%= @sysctl_interval_sec %>
+<% end -%>
+
+<% if @systemd_interval_sec -%>
+systemd_interval_sec: <%= @systemd_interval_sec %>
+<% end -%>
+
 custom_attributes:
 <% @custom_attributes.each do |key,value|-%>
     <%= key %>: <%= value%>
