@@ -118,18 +118,35 @@ class newrelic_infra::agent (
     }
     'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
       # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
+      exec { 'download_newrelic_gpg_key':
+        command => '/usr/bin/wget https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg -O /opt/newrelic_infra.gpg',
+        creates => '/opt/newrelic_infra.gpg',
+      } ~>
+      exec { 'import_newrelic_gpg_key':
+        command    => '/bin/rpm --import /opt/newrelic_infra.gpg',
+        refreshonly => true
+      } ->
       exec { 'add_newrelic_repo':
         creates => '/etc/zypp/repos.d/newrelic-infra.repo',
-        command => "/usr/bin/zypper addrepo --no-gpgcheck --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
+        command => "/usr/bin/zypper addrepo --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
         path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-        notify  => Exec['install_newrelic_agent']
       }
-      # work around necessary because pacakge doesn't have Zypp provider in the puppet SLES version 
-      exec { 'install_newrelic_agent':
-        command     => '/usr/bin/zypper install -y newrelic-infra',
-        path        => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-        require     => Exec['add_newrelic_repo'],
-        refreshonly => true,
+      # work around necessary because pacakge doesn't have Zypp provider in the puppet SLES version
+
+      if $ensure in ['present', 'latest'] {
+        exec { 'install_newrelic_agent':
+          command     => '/usr/bin/zypper install -y newrelic-infra',
+          path        => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+          require     => Exec['add_newrelic_repo'],
+          unless => "/bin/rpm -qa | /usr/bin/grep newrelic-infra"
+        }
+      }
+      elsif $ensure == 'absent' {
+        exec { "install_newrelic_agent":
+          command => "/usr/bin/zypper remove -y newrelic-infra",
+          path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+          onlyif  => "/bin/rpm -qa | /usr/bin/grep newrelic-infra"
+        }
       }
     }
     'windows': {
