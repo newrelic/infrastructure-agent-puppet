@@ -1,5 +1,14 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.8.1 (2019-04-12)
+
+BUG FIXES:
+
+* Fixes duplicate creation of newrelic infra repo when using both the agent
+  and integrations module.
+* Fixes and issue with `apt` based systems where the first execution of the 
+  puppet module would fail with `apt` related errors.
+
 ## 0.8.0 (2019-04-08)
 
 IMPROVEMENTS:
