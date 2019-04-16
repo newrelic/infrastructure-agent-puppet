@@ -19,4 +19,6 @@ custom_attributes:
     <%= key %>: <%= value%>
 <% end -%>
 
-<%= @custom_configs.to_yaml.sub(/.*?\n/, '') %>
+<% custom_configs.each do |key,value| -%>
+<%= key %>: <%= value %>
+<% end -%>
