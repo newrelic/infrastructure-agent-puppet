@@ -1,5 +1,13 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.8.2 (2019-04-16)
+
+BUG FIXES:
+
+* Change the `to_yaml` function for and explicit loop over the `custom_configs`
+  attribute, that way avoiding extra trailing whitespaces in the resulting 
+  yaml that caused the config options being ignored.
+
 ## 0.8.1 (2019-04-12)
 
 BUG FIXES:
