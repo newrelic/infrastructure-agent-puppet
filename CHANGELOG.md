@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.8.3 (2019-04-17)
+
+BUG FIXES:
+
+* Add missing `@` in template 
+
 ## 0.8.2 (2019-04-16)
 
 BUG FIXES:
