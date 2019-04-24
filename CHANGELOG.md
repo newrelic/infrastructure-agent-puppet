@@ -1,5 +1,13 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.9.0 (CHANGE DATE)
+
+IMPROVEMENTS:
+
+* Add support for installing the agent in different linux architecture from the
+  tarballs. For this purppose two new attributes where added to 
+  `newrelic_infra::agent`, `linux_provider` and `tarball_version`.
+
 ## 0.8.3 (2019-04-17)
 
 BUG FIXES:
