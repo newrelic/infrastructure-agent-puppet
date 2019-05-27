@@ -5,7 +5,7 @@
 IMPROVEMENTS:
 
 * Add support for installing the agent in different linux architecture from the
-  tarballs. For this purppose two new attributes where added to 
+  tarballs. For this purppose two new attributes were added
   `newrelic_infra::agent`, `linux_provider` and `tarball_version`.
 
 ## 0.8.3 (2019-04-17)
