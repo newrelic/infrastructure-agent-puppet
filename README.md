@@ -175,7 +175,7 @@ packages, so you need to remove it first, before removing any of the other.
 * Debian version 7 ("Wheezy") or higher
 * Red Hat Enterprise Linux (RHEL) version 5 or higher
 * Ubuntu versions 12.04._, 14.04._, 16.04._, and 18.04_ (LTS versions)
-* Windows 2008, 2012 and 2016
+* Windows 2008, 2012, 2016 and 2019
 
 ## Release to PuppetForge
 
@@ -188,7 +188,7 @@ To release a new version to [PuppetForge][1] follow this steps:
 
 ## License
 
-Copyright (c) 2016 New Relic, Inc. All rights reserved.
+Copyright (c) 2019 New Relic, Inc. All rights reserved.
 
 [1]: https://forge.puppet.com/newrelic/newrelic_infra
 [2]: https://travis-ci.org/newrelic/infrastructure-agent-puppet/
