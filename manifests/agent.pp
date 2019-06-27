@@ -144,12 +144,12 @@ class newrelic_infra::agent (
               exec { 'download_newrelic_gpg_key':
                 command => '/usr/bin/wget https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg -O /opt/newrelic_infra.gpg',
                 creates => '/opt/newrelic_infra.gpg',
-              } ~>
-              exec { 'import_newrelic_gpg_key':
-                command    => '/bin/rpm --import /opt/newrelic_infra.gpg',
+              }
+              ~> exec { 'import_newrelic_gpg_key':
+                command     => '/bin/rpm --import /opt/newrelic_infra.gpg',
                 refreshonly => true
-              } ->
-              exec { 'add_newrelic_repo':
+              }
+              -> exec { 'add_newrelic_repo':
                 creates => '/etc/zypp/repos.d/newrelic-infra.repo',
                 command => "/usr/bin/zypper addrepo --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
                 path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
@@ -158,17 +158,17 @@ class newrelic_infra::agent (
 
               if $ensure in ['present', 'latest'] {
                 exec { 'install_newrelic_agent':
-                  command     => '/usr/bin/zypper install -y newrelic-infra',
-                  path        => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-                  require     => Exec['add_newrelic_repo'],
-                  unless => "/bin/rpm -qa | /usr/bin/grep newrelic-infra"
+                  command => '/usr/bin/zypper install -y newrelic-infra',
+                  path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
+                  require => Exec['add_newrelic_repo'],
+                  unless  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra'
                 }
               }
               elsif $ensure == 'absent' {
-                exec { "install_newrelic_agent":
-                  command => "/usr/bin/zypper remove -y newrelic-infra",
+                exec { 'install_newrelic_agent':
+                  command => '/usr/bin/zypper remove -y newrelic-infra',
                   path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-                  onlyif  => "/bin/rpm -qa | /usr/bin/grep newrelic-infra"
+                  onlyif  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra'
                 }
               }
             }
@@ -184,17 +184,17 @@ class newrelic_infra::agent (
           }
 
           case $facts['os']['architecture'] {
-            "x86_64": { $arch = 'amd64' }
-            "i386": { $arch = '386' }
+            'x86_64': { $arch = 'amd64' }
+            'i386': { $arch = '386' }
             default: { $arch = facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
 
-          file { "/opt/newrelic_infra":
+          file { '/opt/newrelic_infra':
             ensure => directory
-          } ->
-          file { $target_dir:
+          }
+          -> file { $target_dir:
             ensure => directory
           }
 
@@ -205,15 +205,15 @@ class newrelic_infra::agent (
           }
 
           exec { 'uncompress newrelic-infra tarball':
-            command => "tar -xzf /opt/${tar_filename} -C $target_dir ",
+            command => "tar -xzf /opt/${tar_filename} -C ${target_dir} ",
             path    => '/bin',
             creates => "${target_dir}/newrelic-infra/",
             require => File[
               'download_newrelic_agent',
               $target_dir
             ]
-          } ~>
-          exec { 'run installation script':
+          }
+          ~> exec { 'run installation script':
             command     => "${target_dir}/newrelic-infra/installer.sh",
             provider    => shell,
             cwd         => "${target_dir}/newrelic-infra",
@@ -222,6 +222,9 @@ class newrelic_infra::agent (
           }
           Exec['run installation script'] -> Service['newrelic-infra']
         }
+      default: {
+        fail('New Relic Infrastructure agent is not yet supported on this platform')
+      }
       }
     }
     'windows': {
@@ -276,10 +279,10 @@ class newrelic_infra::agent (
   } elsif $::operatingsystem == 'SLES' {
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
-      ensure  => $service_ensure,
-      start   => '/etc/init.d/newrelic-infra start',
-      stop    => '/etc/init.d/newrelic-infra stop',
-      status  => '/etc/init.d/newrelic-infra status',
+      ensure => $service_ensure,
+      start  => '/etc/init.d/newrelic-infra start',
+      stop   => '/etc/init.d/newrelic-infra stop',
+      status => '/etc/init.d/newrelic-infra status',
     }
   } else {
     # Setup agent service

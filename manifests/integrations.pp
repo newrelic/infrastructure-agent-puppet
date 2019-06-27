@@ -17,7 +17,7 @@ class newrelic_infra::integrations (
             command => "/usr/bin/zypper install -y ${integration_name}",
             path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
             require => Exec['add_newrelic_integrations_repo'],
-            unless => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
+            unless  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
           }
         }
         elsif $integrations[$integration_name]['ensure'] == 'absent' {
