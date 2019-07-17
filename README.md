@@ -95,7 +95,7 @@ Optional. A hash of agent configuration directives that are not exposed explicit
  Optional. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows the windows provider to be used if another provider such as Chocolatey has been specified as the default provider in the puppet installation.
 
  ##### `windows_temp_folder`
-Optional. A string value for the temporary folder to download and install the MSI windows installation file. Exmaple:
+Optional. A string value for the temporary folder to download and install the MSI windows installation file. Example:
 
  ```
 windows_temp_folder => 'C:\\TEMP\\'
