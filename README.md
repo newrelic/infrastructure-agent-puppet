@@ -90,6 +90,17 @@ Optional. A hash of agent configuration directives that are not exposed explicit
 
 {'payload_compression' => 0, 'selinux_enable_semodule' => false}
 
+##### `windows_provider`
+
+ Optional. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows the windows provider to be used if another provider such as Chocolatey has been specified as the default provider in the puppet installation.
+
+ ##### `windows_temp_folder`
+Optional. A string value for the temporary folder to download and install the MSI windows installation file. Example:
+
+ ```
+windows_temp_folder => 'C:/users/Administrator/Downloads'
+```
+
 ##### `package_repo_ensure`
 
 Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`
