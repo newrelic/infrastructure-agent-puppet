@@ -98,7 +98,7 @@ Optional. A hash of agent configuration directives that are not exposed explicit
 Optional. A string value for the temporary folder to download and install the MSI windows installation file. Example:
 
  ```
-windows_temp_folder => 'C:\\TEMP\\'
+windows_temp_folder => 'C:/users/Administrator/Downloads'
 ```
 
 ##### `package_repo_ensure`

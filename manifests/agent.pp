@@ -43,8 +43,10 @@
 #   Options. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows
 #   the windows provider to be used if another provider such as Chocolatey has been specified as the default
 #   provider in the puppet installation.
+#
 # [*windows_temp_folder*]
 #   Optional. A string value for the temporary folder to download and install the MSI windows installation file.
+#
 # [*linux_provider*]
 #   Specifies the provider to use for installing the agent. Two options are
 #   supported:
@@ -79,7 +81,7 @@ class newrelic_infra::agent (
   $custom_attributes    = {},
   $custom_configs       = {},
   $windows_provider     = 'windows',
-  $windows_temp_folder  = 'C:\\TEMP\\',
+  $windows_temp_folder  = 'C:/users/Administrator/Downloads',
   $linux_provider       = 'package_manager',
   $tarball_version      = undef
 ) {
@@ -233,14 +235,14 @@ class newrelic_infra::agent (
       # download the new relic infrastructure msi file
       file { 'download_newrelic_agent':
         ensure => file,
-        path   => "${windows_temp_folder}newrelic-infra.msi",
+        path   => "${windows_temp_folder}/newrelic-infra.msi",
         source => 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
       }
 
       package { 'newrelic-infra':
         ensure   => 'installed',
         name     => 'New Relic Infrastructure Agent',
-        source   => "${windows_temp_folder}newrelic-infra.msi",
+        source   => "${windows_temp_folder}/newrelic-infra.msi",
         require  => File['download_newrelic_agent'],
         provider => $windows_provider,
       }
