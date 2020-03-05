@@ -1,5 +1,12 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.10.0 (2019-08-12)
+
+IMPROVEMENTS:
+
+* Add support for optional MSI installation directory parameter for downloaded windows installation file.  
+* The requirements modules has been updated for `puppet-labs-apt` module, This update changed the depencies requirement version of this module from `>= 2.3.0 < 5.0.0` version to `>= 2.3.0 < 8.0.0`. And for `puppetlabs-stdlib` module, the requirements version has been updated from `>= 4.2.0 < 5.0.0` version to `>= 4.2.0 < 7.0.0`.
+
 ## 0.9.0 (2019-05-27)
 
 IMPROVEMENTS:
