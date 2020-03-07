@@ -90,12 +90,12 @@ class newrelic_infra::agent (
     fail('New Relic license key not provided')
   }
 
-  case $facts['kernel'] {
+  case $::kernel {
     'Linux': {
       case $linux_provider {
         'package_manager': {
           # Setup agent package repo
-          case $facts['os']['name'] {
+          case $::operatingsystem {
             'Debian', 'Ubuntu': {
               ensure_packages('apt-transport-https')
               apt::source { 'newrelic_infra-agent':
@@ -187,10 +187,10 @@ class newrelic_infra::agent (
             fail("The `tarball_version` variable should be defined when using `linux_provider='tarball'`")
           }
 
-          case $facts['os']['architecture'] {
+          case $::architecture {
             'x86_64': { $arch = 'amd64' }
             'i386': { $arch = '386' }
-            default: { $arch = facts['os']['architecture'] }
+            default: { $arch = $::architecture }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
