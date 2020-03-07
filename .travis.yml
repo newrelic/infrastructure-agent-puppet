@@ -1,6 +1,7 @@
 branches:
   only:
     - master
+    - pdk
     - /^\d+\.\d+\.\d+$/
 cache: bundler
 deploy:
