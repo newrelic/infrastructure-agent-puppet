@@ -1,8 +1,7 @@
 branches:
   only:
-    - master
-    - pdk
-    - /^\d+\.\d+\.\d+$/
+  - gh-pages
+  - /.*/
 cache: bundler
 deploy:
   on:
