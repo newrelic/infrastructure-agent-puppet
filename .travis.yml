@@ -2,6 +2,7 @@ branches:
   only:
     - master
     - /^\d+\.\d+\.\d+$/
+    - 0.10.0-legacy
 cache: bundler
 deploy:
   on:
