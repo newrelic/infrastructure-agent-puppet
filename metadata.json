@@ -1,6 +1,6 @@
 {
   "name": "newrelic-newrelic_infra",
-  "version": "0.10.0",
+  "version": "0.10.0-legacy",
   "author": "New Relic, Inc.",
   "summary": "A Puppet module for installing New Relic Infrastructure Agent",
   "license":
@@ -12,7 +12,7 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": ["7", "8", "9"]
+      "operatingsystemrelease": ["7", "8"]
     },
     {
       "operatingsystem": "CentOS",
@@ -32,7 +32,7 @@
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["12.04", "14.04", "16.04", "18.04"]
+      "operatingsystemrelease": ["12.04", "14.04", "16.04"]
     },
     {
       "operatingsystem": "Windows",
@@ -43,7 +43,7 @@
     { "name": "puppet", "version_requirement": ">= 3.0.0 < 6.0.0" }
   ],
   "dependencies": [
-    { "name": "puppetlabs-apt", "version_requirement": ">= 2.3.0 < 8.0.0" },
-    { "name": "puppetlabs-stdlib", "version_requirement": ">= 4.2.0 < 7.0.0" }
+    { "name": "puppetlabs-apt", "version_requirement": ">= 2.3.0 <= 2.4.0" },
+    { "name": "puppetlabs-stdlib", "version_requirement": ">= 4.0.0 <= 4.25.1" }
   ]
 }
