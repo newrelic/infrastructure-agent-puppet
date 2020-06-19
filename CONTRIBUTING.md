@@ -45,3 +45,4 @@ Use `bundle exec kitchen` to run commands.
 * Jonatan Bernal (@els-bernalj)
 * Keith Stone (@kwstone14)
 * Josh Simmonds (@j0sh3rs)
+* Michael Stathers (@mstathers)
