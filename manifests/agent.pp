@@ -192,6 +192,7 @@ class newrelic_infra::agent (
           case $facts['os']['architecture'] {
             'x86_64': { $arch = 'amd64' }
             'i386': { $arch = '386' }
+            'aarch64': { $arch = 'arm64' }
             default: { $arch = facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
