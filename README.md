@@ -1,25 +1,27 @@
 [![Community Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Project.png)](https://opensource.newrelic.com/oss-category/#community-project)
 
-# New Relic infrastructure agent Puppet module [![Build Status](https://travis-ci.org/newrelic/infrastructure-agent-puppet.svg?branch=master)](https://travis-ci.org/newrelic/infrastructure-agent-puppet)
+# Puppet module for the New Relic infrastructure agent [![Build Status](https://travis-ci.org/newrelic/infrastructure-agent-puppet.svg?branch=master)](https://travis-ci.org/newrelic/infrastructure-agent-puppet)
 
-This Puppet module installs and configures the New Relic infrastructure agent and on-host integrations.
+This Puppet module installs and configures the [New Relic infrastructure agent](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure) and [on-host integrations](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/).
 
-## Installing and using New Relic infrastructure agent Puppet module
+## Install and use the Puppet module
 
-### What newrelic-infra Puppet module affects
+### What the `newrelic-infra` Puppet module affects
 
-* Adds the New Relic Infrastructure package repository source
-* Installs and configures the New Relic Infrastructure agent
+* Adds the New Relic Infrastructure package repository source.
+* Installs and configures the New Relic Infrastructure agent.
 
-### Beginning with newrelic-infra
+### Getting started with `newrelic-infra`
 
-Declare the main `::agent` class.
+Start by declaring the main `::agent` class.
 
 ### Usage
 
-All interactions with `newrelic-infra` will be done through the main `agent` class.
+All interactions with `newrelic-infra` are done through the main `agent` class.
 
-#### Installing the Infrastructure agent
+#### Install the infrastructure agent
+
+Use the following snippet to install the infrastructure agent:
 
 ```ruby
 class { 'newrelic_infra::agent':
@@ -32,7 +34,7 @@ class { 'newrelic_infra::agent':
 
 ### Classes
 
-#### Public Classes
+#### Public classes
 
 * [`newrelic_infra::agent`](#newrelic_infraagent): Installs and configures the Infrastructure agent.
 
@@ -42,75 +44,74 @@ class { 'newrelic_infra::agent':
 
 ##### `ensure`
 
-Specifies the Infrastructure agent ensure status.
+Specifies the Infrastructure agent `ensure` status.
 
-Valid values include:
+Supported values include:
 
-* `'latest'` - (default) Installs the latest agent version
-* `'absent'` - Uninstalls the agent
-* string - String containing a specific version to pin
+* `'latest'` - (default) Installs the latest agent version.
+* `'absent'` - Uninstalls the agent.
+* `string` - String containing a specific version to pin
 
 ##### `license_key`
 
 Specifies the New Relic license key to use.
 
-##### `display_name`
+##### `display_name` (Optional)
 
-Optional. Override the auto-generated hostname for reporting.
+Overrides the auto-generated hostname for reporting.
 
-##### `verbose`
+##### `verbose` (Optional)
 
-Optional. Enables verbose logging for the agent when set the value with 1, the default value is 0.
+Enables verbose logging for the agent when the value is set to 1. Default value is 0.
 
-##### `log_file`
+##### `log_file` (Optional)
 
-Optional. To log to another location, provide a full path and file name. When not set, the agent logs to the system log files.
+To log to another location, provide a full path and file name. When not set, the agent logs to the system log files.
+
 Typical default locations:
 
 * Amazon Linux, CentOS, RHEL: `/var/log/messages`
 * Debian, Ubuntu: `/var/log/syslog`
 * Windows Server: `C:\Program Files\New Relic\newrelic-infra\newrelic-infra.log`
 
-##### `proxy`
+##### `proxy` (Optional)
 
-Optional. Set the proxy server the agent should use. Examples:
+Sets the proxy server the agent should use. Examples:
 
 * `https://myproxy.foo.com:8080`
 * `http://10.10.254.254`
 
-##### `custom_attributes`
+##### `custom_attributes` (Optional)
 
-Optional. A hash of custom attributes to annotate the data from this agent instance.
+A hash of custom attributes to annotate the data from this agent instance.
 
-##### `custom_configs`
+##### `custom_configs` (Optional)
 
-Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
+A hash of agent configuration directives that are not exposed explicitly. Example:
 
-{'payload_compression' => 0, 'selinux_enable_semodule' => false}
+`{'payload_compression' => 0, 'selinux_enable_semodule' => false}`
 
-##### `windows_provider`
+##### `windows_provider` (Optional)
 
- Optional. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows the windows provider to be used if another provider such as Chocolatey has been specified as the default provider in the puppet installation.
+Allows for the selection of a provider other than `windows` for the [Windows MSI install](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer). Or allows the Windows provider to be used if another provider such as Chocolatey has been specified as default in the Puppet installation.
 
- ##### `windows_temp_folder`
-Optional. A string value for the temporary folder to download and install the MSI windows installation file. Example:
+ ##### `windows_temp_folder` (Optional)
 
- ```
+A string value for the temporary folder to download and install the MSI windows installation file. Example:
+
+```
 windows_temp_folder => 'C:/users/Administrator/Downloads'
 ```
 
-##### `package_repo_ensure`
+##### `package_repo_ensure` (Optional)
 
-Optional. A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra`
-package has been mirrored to another repo that's already present on the system (set to `absent` to achieve this)
+A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra` package has been mirrored to another repo that's already present on the system (set it to `absent` to achieve this).
 
-### Installing the Infrastructure On-host integrations
+### Installing the infrastructure on-host integrations
 
-In order to install integrations you can use the `integrations` class. The list
-of available integrations can be found [here][3].
+In order to install integrations you can use the `integrations` class. The list of available integrations can be found [here][3].
 
-The `newrelic_infra::integrations`, has a parameter named `integrations` which
-should be a hash of:
+The `newrelic_infra::integrations`, has a parameter named `integrations` which should be a hash of:
 
 ```
 {
@@ -119,9 +120,7 @@ should be a hash of:
 }
 ```
 
-The integrations package name is located in the **Install and activate**
-section of the individual integrations docs. They use the following convention,
-name of the service with the `nri-` prefix (`nri-apache`, `nri-redis`, ...).
+The integrations package name is located in the **Install and activate** section of the [individual integrations docs](https://docs.newrelic.com/docs/integrations). As a convention, their name is the name of the service with the nri- prefix (`nri-apache`, `nri-redis`, etc.).
 
 ```ruby
 class { 'newrelic_infra::integrations':
@@ -135,25 +134,11 @@ class { 'newrelic_infra::integrations':
 
 The source code for each integration is available on [newrelic's github organization][4].
 
-#### Removing newrelic-infra-integrations package and its bundled integrations
+#### Removing `newrelic-infra-integrations` package and its bundled integrations
 
-**NOTE** *This only applies if you have the `newrelic-infra-integrations` 
-package installed*
+> This only applies if you have the `newrelic-infra-integrations` package installed
 
-If you had installed the `newrelic-infra-integrations` package, 
-could be because you were using the previous versions of this module, or you 
-installed it some other way; and you want to do some cleanup by
-removing it or any of the following integrations (the ones that came bundle
-with it):
-
-- nri-redis
-- nri-cassandra
-- nri-apache
-- nri-nginx
-- nri-mysql
-
-You have to add `newrelic-infra-integrations` as the first item of the 
-`integrations` hash argument with an `ensure => absent`.
+If you want to remove the `newrelic-infra-integrations` package or any of the bundled integrations (nri-redis, nri-cassandra, nri-apache, nri-nginx, nri-mysql),  add `newrelic-infra-integrations` as the first item of the `integrations` hash argument with an `ensure => absent`.
 
 ```ruby
 class { 'newrelic_infra::integrations':
@@ -165,17 +150,16 @@ class { 'newrelic_infra::integrations':
 }
 ```
 
-Otherwise you might get the following error:
+Otherwise, you might get the following error:
 
 ```
 Error: Execution of '/bin/rpm -e nri-mysql-1.1.5-1.x86_64' returned 1: error: Failed dependencies:
         nri-mysql is needed by (installed) newrelic-infra-integrations-0:1.7.0-1.x86_64
 ```
 
-That is because the `newrelic-infra-integrations`, has a dependency on those 
-packages, so you need to remove it first, before removing any of the other.
+That is because the `newrelic-infra-integrations` has a dependency on those packages, so you need to remove it before removing any of the others.
 
-## Limitations
+## Compatibility
 
 ### Platforms
 
