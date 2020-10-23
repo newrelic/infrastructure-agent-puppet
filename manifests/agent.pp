@@ -81,7 +81,7 @@ class newrelic_infra::agent (
   $custom_attributes    = {},
   $custom_configs       = {},
   $windows_provider     = 'windows',
-  $windows_temp_folder  = 'C:/users/Administrator/Downloads',
+  $windows_temp_folder  = 'C:/Windows/Temp',
   $linux_provider       = 'package_manager',
   $tarball_version      = undef
 ) {
