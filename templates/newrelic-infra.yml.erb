@@ -22,3 +22,8 @@ custom_attributes:
 <% @custom_configs.each do |key,value| -%>
 <%= key %>: <%= value %>
 <% end -%>
+
+ignored_inventory:
+<% @ignored_inventory.each do |item|-%>
+  - <%= item%>
+<% end -%>

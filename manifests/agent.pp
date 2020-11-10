@@ -39,6 +39,10 @@
 #   Optional. A hash of agent configuration directives that are not exposed explicitly. Example:
 #   {'payload_compression' => 0, 'selinux_enable_semodule' => false}
 #
+# [*ignored_inventory*]
+#   Optional. An array of items to exclude for uploaded data. This can cut down data collection size for data intensive APIs. Example:
+#   ignored_inventory => '"metadata/facter_facts/ec2_metadata/hostname","metadata/facter_facts/ec2_metadata/instance-action","metadata/facter_facts/ec2_metadata/instance-type","metadata/facter_facts/ec2_metadata/local-hostname"'
+#
 # [*windows_provider*]
 #   Options. Allows for the selection of a provider other than 'windows' for the Windows MSI install. Or allows
 #   the windows provider to be used if another provider such as Chocolatey has been specified as the default
@@ -80,6 +84,7 @@ class newrelic_infra::agent (
   $log_file             = '',
   $custom_attributes    = {},
   $custom_configs       = {},
+  $ignored_inventory    = [],
   $windows_provider     = 'windows',
   $windows_temp_folder  = 'C:/users/Administrator/Downloads',
   $linux_provider       = 'package_manager',
