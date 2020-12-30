@@ -274,7 +274,7 @@ class newrelic_infra::agent (
   }
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
-  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsytem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
+  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsystem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
   or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
       ensure   => $service_ensure,
