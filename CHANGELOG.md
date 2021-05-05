@@ -1,5 +1,15 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.10.1 (2021-05-05)
+
+IMPROVEMENTS:
+
+* Removed obsolete future_parser. 
+
+BUG FIXES:
+
+* Fixed Windows package "ensure" value.
+
 ## 0.10.0 (2019-08-12)
 
 IMPROVEMENTS:
