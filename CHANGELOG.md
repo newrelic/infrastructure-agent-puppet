@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+## 0.10.2 (2021-05-05)
+
+BUG FIXES:
+
+* Fixed Windows package "ensure" value to exclude 'latest'.
+
 ## 0.10.1 (2021-05-05)
 
 IMPROVEMENTS:
