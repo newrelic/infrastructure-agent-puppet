@@ -240,7 +240,7 @@ class newrelic_infra::agent (
       }
 
       package { 'newrelic-infra':
-        ensure   => 'installed',
+        ensure   => $ensure,
         name     => 'New Relic Infrastructure Agent',
         source   => "${windows_temp_folder}/newrelic-infra.msi",
         require  => File['download_newrelic_agent'],
