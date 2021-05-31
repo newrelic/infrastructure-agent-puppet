@@ -102,7 +102,7 @@ Allows for the selection of a provider other than `windows` for the [Windows MSI
 A string value for the temporary folder to download and install the MSI windows installation file. Example:
 
 ```
-windows_temp_folder => 'C:/Temp'
+windows_temp_folder => 'C:/Windows/Temp'
 ```
 
 ##### `package_repo_ensure` (Optional)
