@@ -23,7 +23,9 @@ custom_attributes:
 <%= key %>: <%= value %>
 <% end -%>
 
-ignored_inventory:
-<% @ignored_inventory.each do |item|-%>
-  - <%= item%>
+<% if @ignored_inventory.nil? %>
+  ignored_inventory:
+  <% @ignored_inventory.each do |item|-%>
+    - <%= item%>
+  <% end -%>
 <% end -%>
