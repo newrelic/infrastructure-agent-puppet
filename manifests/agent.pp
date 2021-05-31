@@ -232,6 +232,12 @@ class newrelic_infra::agent (
       }
     }
     'windows': {
+      if $ensure == 'latest' {
+        $ensure_windows = 'installed'
+      } else {
+        $ensure_windows = $ensure
+      }
+
       # download the new relic infrastructure msi file
       file { 'download_newrelic_agent':
         ensure => file,
@@ -240,7 +246,7 @@ class newrelic_infra::agent (
       }
 
       package { 'newrelic-infra':
-        ensure   => 'installed',
+        ensure   => $ensure_windows,
         name     => 'New Relic Infrastructure Agent',
         source   => "${windows_temp_folder}/newrelic-infra.msi",
         require  => File['download_newrelic_agent'],
