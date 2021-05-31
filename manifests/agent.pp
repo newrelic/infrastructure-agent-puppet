@@ -131,7 +131,7 @@ class newrelic_infra::agent (
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
               if ($::operatingsystem == 'Amazon') {
-                $repo_releasever = '7'
+                $repo_releasever = '6'
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
