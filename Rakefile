@@ -10,6 +10,5 @@ PuppetLint::RakeTask.new :lint do |config|
 end
 
 PuppetSyntax.exclude_paths = ['vendor/**/*']
-PuppetSyntax.future_parser = true
 
 task default: [:lint, :metadata_lint, :syntax]
