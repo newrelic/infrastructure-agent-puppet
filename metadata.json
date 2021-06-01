@@ -1,6 +1,6 @@
 {
   "name": "newrelic-newrelic_infra",
-  "version": "0.10.0",
+  "version": "0.10.2",
   "author": "New Relic, Inc.",
   "summary": "A Puppet module for installing New Relic Infrastructure Agent",
   "license":
@@ -37,6 +37,10 @@
     {
       "operatingsystem": "Windows",
       "operatingsystemrelease": ["2008", "2012", "2016"]
+    },
+    {
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease": ["1", "2"]
     }
   ],
   "requirements": [

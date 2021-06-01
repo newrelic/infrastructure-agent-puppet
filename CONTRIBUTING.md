@@ -28,3 +28,16 @@ For more information about CLAs, please check out Alex Russell’s excellent pos
 ## Slack
 
 We host a public Slack with a dedicated channel for contributors and maintainers of open source projects hosted by New Relic.  If you are contributing to this project, you're welcome to request access to the #oss-contributors channel in the newrelicusers.slack.com workspace.  To request access, see https://newrelicusers-signup.herokuapp.com/.
+
+## Contributors
+
+* Phil McArdle (@philmcardle)
+* Ruben Hervas (@xino12)
+* Nathan Smith (@smith)
+* Amir Yalon (@amiryal)
+* Irfan Patel (@irfanypatel)
+* Alejandro Do Nascimento (@alejandrodnm)
+* Jonatan Bernal (@els-bernalj)
+* Keith Stone (@kwstone14)
+* Josh Simmonds (@j0sh3rs)
+* Michael Stathers (@mstathers)
