@@ -125,8 +125,10 @@ class newrelic_infra::agent (
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
-              if ($::operatingsystem == 'Amazon') {
+              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '1'){
                 $repo_releasever = '6'
+              } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
+                $repo_releasever = '7'
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
@@ -190,6 +192,7 @@ class newrelic_infra::agent (
           case $facts['os']['architecture'] {
             'x86_64': { $arch = 'amd64' }
             'i386': { $arch = '386' }
+            'aarch64': { $arch = 'arm64' }
             default: { $arch = facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
@@ -281,7 +284,7 @@ class newrelic_infra::agent (
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
   if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
-  or ($::operatingsystem == 'Amazon') {
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '1') {
     service { 'newrelic-infra':
       ensure   => $service_ensure,
       provider => 'upstart',
