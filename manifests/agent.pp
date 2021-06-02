@@ -125,7 +125,7 @@ class newrelic_infra::agent (
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
-              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '1'){
+              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease != '2'){
                 $repo_releasever = '6'
               } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
                 $repo_releasever = '7'
@@ -283,7 +283,7 @@ class newrelic_infra::agent (
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
   if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
-  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '1') {
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease != '2') {
     service { 'newrelic-infra':
       ensure   => $service_ensure,
       provider => 'upstart',
