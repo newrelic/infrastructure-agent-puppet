@@ -40,7 +40,7 @@
     },
     {
       "operatingsystem": "Amazon",
-      "operatingsystemrelease": ["1", "2"]
+      "operatingsystemrelease": ["2018", "2"]
     }
   ],
   "requirements": [
