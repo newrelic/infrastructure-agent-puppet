@@ -88,7 +88,7 @@ class newrelic_infra::agent (
   $custom_configs       = {},
   $download_proxy       = undef,
   $windows_provider     = 'windows',
-  $windows_temp_folder  = 'C:/users/Administrator/Downloads',
+  $windows_temp_folder  = 'C:/Windows/Temp',
   $windows_download_url = 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
   $linux_provider       = 'package_manager',
   $tarball_version      = undef
@@ -133,8 +133,10 @@ class newrelic_infra::agent (
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
-              if ($::operatingsystem == 'Amazon') {
+              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018'){
                 $repo_releasever = '6'
+              } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
+                $repo_releasever = '7'
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
@@ -297,8 +299,8 @@ class newrelic_infra::agent (
   }
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
-  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
-  or ($::operatingsystem == 'Amazon') {
+  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsystem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018') {
     service { 'newrelic-infra':
       ensure   => $service_ensure,
       provider => 'upstart',
