@@ -1,5 +1,33 @@
 # newrelic-infra Puppet module CHANGELOG
 
+# 0.11.0 (2021-05-06)
+
+IMPROVEMENTS:
+
+* Conforming to pdk standard for modules
+* Added `download_proxy` for downloading package. (Introduces new module dependency of `lwf-remote_file`)
+* Add support for optional MSI download url via `windows_download_url`
+
+BUG FIXES:
+
+* Fixed Windows uninstall issue if service is enabled.
+
+## 0.10.2 (2021-05-05)
+
+BUG FIXES:
+
+* Fixed Windows package "ensure" value to exclude 'latest'.
+
+## 0.10.1 (2021-05-05)
+
+IMPROVEMENTS:
+
+* Removed obsolete future_parser. 
+
+BUG FIXES:
+
+* Fixed Windows package "ensure" value.
+
 ## 0.10.0 (2019-08-12)
 
 IMPROVEMENTS:

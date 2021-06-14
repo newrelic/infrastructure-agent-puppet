@@ -51,10 +51,16 @@
 # [*windows_temp_folder*]
 #   Optional. A string value for the temporary folder to download and install the MSI windows installation file.
 #
+# [*download_proxy*]
+#   Optional. Proxy url for tarball or msi install
+#
+# [*windows_download_url*]
+#   Optional. A string value for the download URL for MSI windows installation file.
+#
 # [*linux_provider*]
 #   Specifies the provider to use for installing the agent. Two options are
 #   supported:
-#   - `pacakage_manager` (default): installs from the underlying package
+#   - `package_manager` (default): installs from the underlying package
 #   manager the linux distro uses (yum, zypp or apt).
 #   - `tarball`: downloads a newrelic tarball from
 #   https://download.newrelic.com/infrastructure_agent/test/binaries/linux/
@@ -85,8 +91,10 @@ class newrelic_infra::agent (
   $custom_attributes    = {},
   $custom_configs       = {},
   $ignored_inventory    = [],
+  $download_proxy       = undef,
   $windows_provider     = 'windows',
-  $windows_temp_folder  = 'C:/users/Administrator/Downloads',
+  $windows_temp_folder  = 'C:/Windows/Temp',
+  $windows_download_url = 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
   $linux_provider       = 'package_manager',
   $tarball_version      = undef
 ) {
@@ -130,8 +138,10 @@ class newrelic_infra::agent (
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
-              if ($::operatingsystem == 'Amazon') {
+              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018'){
                 $repo_releasever = '6'
+              } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
+                $repo_releasever = '7'
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
@@ -207,17 +217,18 @@ class newrelic_infra::agent (
             ensure => directory
           }
 
-          file { 'download_newrelic_agent':
-            ensure => file,
+          remote_file { 'download_newrelic_agent':
+            ensure => present,
             path   => "/opt/${tar_filename}",
             source => "https://download.newrelic.com/infrastructure_agent/binaries/linux/${arch}/${tar_filename}",
+            proxy  => $download_proxy
           }
 
           exec { 'uncompress newrelic-infra tarball':
             command => "tar -xzf /opt/${tar_filename} -C ${target_dir} ",
             path    => '/bin',
             creates => "${target_dir}/newrelic-infra/",
-            require => File[
+            require => Remote_file[
               'download_newrelic_agent',
               $target_dir
             ]
@@ -237,18 +248,25 @@ class newrelic_infra::agent (
       }
     }
     'windows': {
+      if $ensure == 'latest' {
+        $ensure_windows = 'installed'
+      } else {
+        $ensure_windows = $ensure
+      }
+
       # download the new relic infrastructure msi file
-      file { 'download_newrelic_agent':
-        ensure => file,
+      remote_file { 'download_newrelic_agent':
+        ensure => present,
         path   => "${windows_temp_folder}/newrelic-infra.msi",
-        source => 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
+        source => $windows_download_url,
+        proxy  => $download_proxy
       }
 
       package { 'newrelic-infra':
-        ensure   => 'installed',
+        ensure   => $ensure_windows,
         name     => 'New Relic Infrastructure Agent',
         source   => "${windows_temp_folder}/newrelic-infra.msi",
-        require  => File['download_newrelic_agent'],
+        require  => Remote_file['download_newrelic_agent'],
         provider => $windows_provider,
       }
     }
@@ -269,18 +287,25 @@ class newrelic_infra::agent (
     }
   }
   else {
-    file { 'newrelic_config_file':
-      ensure  => file,
-      name    => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
-      content => template('newrelic_infra/newrelic-infra.yml.erb'),
-      require => Package['newrelic-infra'],
-      notify  => Service['newrelic-infra'], # Restarts the agent service on config changes
+    if $ensure == 'absent' {
+      file { 'newrelic_config_file':
+        ensure => 'absent',
+        name   => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml'
+      }
+    } else {
+      file { 'newrelic_config_file':
+        ensure  => file,
+        name    => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
+        content => template('newrelic_infra/newrelic-infra.yml.erb'),
+        require => Package['newrelic-infra'],
+        notify  => Service['newrelic-infra'], # Restarts the agent service on config changes
+      }
     }
   }
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
-  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat')and $::operatingsystemmajrelease == '6')
-  or ($::operatingsystem == 'Amazon') {
+  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsystem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
+  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018') {
     service { 'newrelic-infra':
       ensure   => $service_ensure,
       provider => 'upstart',
@@ -295,9 +320,16 @@ class newrelic_infra::agent (
     }
   } else {
     # Setup agent service
-    service { 'newrelic-infra':
-      ensure => $service_ensure,
-      enable => true
+    if $ensure == 'absent' {
+      service { 'newrelic-infra':
+        ensure => stopped,
+        enable => false
+      }
+    } else {
+      service { 'newrelic-infra':
+        ensure => $service_ensure,
+        enable => true
+      }
     }
   }
 }
