@@ -287,12 +287,12 @@ class newrelic_infra::agent (
       provider => 'upstart',
     }
   } elsif $::operatingsystem == 'SLES' {
-    # Setup agent service for sysv-init service manager
+    # Setup agent service for systemd service manager
     service { 'newrelic-infra':
       ensure => $service_ensure,
-      start  => '/etc/init.d/newrelic-infra start',
-      stop   => '/etc/init.d/newrelic-infra stop',
-      status => '/etc/init.d/newrelic-infra status',
+      start  => 'systemctl start newrelic-infra',
+      stop   => 'systemctl stop newrelic-infra',
+      status => 'systemctl status newrelic-infra',
     }
   } else {
     # Setup agent service
