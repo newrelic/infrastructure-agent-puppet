@@ -294,6 +294,14 @@ class newrelic_infra::agent (
       stop   => 'systemctl stop newrelic-infra',
       status => 'systemctl status newrelic-infra',
     }
+  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '11.4' {
+    # Setup agent service for systemd service manager
+    service { 'newrelic-infra':
+      ensure => $service_ensure,
+      start  => '/etc/init.d/newrelic-infra start', 
+      stop   => '/etc/init.d/newrelic-infra stop', 
+      status => '/etc/init.d/newrelic-infra status', 
+    }
   } else {
     # Setup agent service
     service { 'newrelic-infra':
