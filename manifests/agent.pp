@@ -155,7 +155,7 @@ class newrelic_infra::agent (
               }
               -> exec { 'add_newrelic_repo':
                 creates => '/etc/zypp/repos.d/newrelic-infra.repo',
-                command => "/usr/bin/zypper addrepo --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/12.4/x86_64/newrelic-infra.repo",
+                command => "/usr/bin/zypper addrepo --repo http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/${::operatingsystemrelease}/x86_64/newrelic-infra.repo",
                 path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
               }
               # work around necessary because pacakge doesn't have Zypp provider in the puppet SLES version
