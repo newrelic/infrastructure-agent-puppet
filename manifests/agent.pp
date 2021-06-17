@@ -83,7 +83,8 @@ class newrelic_infra::agent (
   $windows_provider     = 'windows',
   $windows_temp_folder  = 'C:/users/Administrator/Downloads',
   $linux_provider       = 'package_manager',
-  $tarball_version      = undef
+  $tarball_version      = undef,
+  $nria_mode            = ''
 ) {
   # Validate license key
   if $license_key == '' {
@@ -117,7 +118,13 @@ class newrelic_infra::agent (
                 cwd         => '/tmp',
                 path        => ['/usr/bin'],
                 subscribe   => Apt::Source['newrelic_infra-agent'],
-                refreshonly => true,
+                refreshonly => true
+              }
+              if ($nria_mode == 'UNPRIVILEGED') {
+                exec { 'install agent with nriamode':
+                  path        => ['/usr/bin'],                
+                  command => 'sudo NRIA_MODE="UNPRIVILEGED" apt-get install newrelic-infra'
+                }
               }
               package { 'newrelic-infra':
                 ensure  => $ensure,
