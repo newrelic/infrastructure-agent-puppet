@@ -128,6 +128,12 @@ class newrelic_infra::agent (
                 subscribe   => Apt::Source['newrelic_infra-agent'],
                 refreshonly => true,
               }
+              if ($nria_mode == 'UNPRIVILEGED') {
+                exec { 'install agent with nriamode':
+                  path        => ['/usr/bin'],                
+                  command => 'sudo -E NRIA_MODE="UNPRIVILEGED" apt-get install newrelic-infra -y'
+                }
+              }              
               package { 'newrelic-infra':
                 ensure  => $ensure,
                 require => Exec['newrelic_infra_apt_get_update'],
