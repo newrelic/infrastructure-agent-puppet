@@ -182,7 +182,12 @@ class newrelic_infra::agent (
                 path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
               }
               # work around necessary because pacakge doesn't have Zypp provider in the puppet SLES version
-
+              if ($nria_mode == 'UNPRIVILEGED') {
+                exec { 'install agent with nriamode':
+                  path        => ['/usr/bin'],                
+                  command => 'sudo NRIA_MODE="UNPRIVILEGED" zypper install -y newrelic-infra'
+                }
+              }
               if $ensure in ['present', 'latest'] {
                 exec { 'install_newrelic_agent':
                   command => '/usr/bin/zypper install -y newrelic-infra',
@@ -322,9 +327,9 @@ class newrelic_infra::agent (
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
       ensure => $service_ensure,
-      start  => '/etc/init.d/newrelic-infra start',
-      stop   => '/etc/init.d/newrelic-infra stop',
-      status => '/etc/init.d/newrelic-infra status',
+      start  => 'systemctl start newrelic-infra',
+      stop   => 'systemctl stop newrelic-infra',
+      status => 'systemctl status newrelic-infra',
     }
   } else {
     # Setup agent service
