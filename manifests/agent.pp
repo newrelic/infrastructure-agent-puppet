@@ -180,7 +180,6 @@ class newrelic_infra::agent (
               fail('New Relic Infrastructure agent is not yet supported on this platform')
             }
           }
-          #Package['newrelic-infra'] -> Service['newrelic-infra']
         }
         'tarball': {
           if !$tarball_version {
