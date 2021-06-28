@@ -285,7 +285,7 @@ class newrelic_infra::agent (
       ensure   => $service_ensure,
       provider => 'upstart',
     }
-  } elsif $::operatingsystem == 'SLES' {
+  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '12' {
     # Setup agent service for systemd service manager
     service { 'newrelic-infra':
       ensure => $service_ensure,
