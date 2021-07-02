@@ -98,6 +98,12 @@ class newrelic_infra::agent (
     fail('New Relic license key not provided')
   }
 
+  # When ensure is absent, ensure that other variables are set for removal as well
+  if $ensure == 'absent' {
+    $package_repo_ensure => 'absent',
+    $service_ensure => 'stopped'
+  }
+
   case $facts['kernel'] {
     'Linux': {
       case $linux_provider {
