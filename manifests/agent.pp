@@ -100,7 +100,7 @@ class newrelic_infra::agent (
 
   # When ensure is absent, ensure that other variables are set for removal as well
   if $ensure == 'absent' {
-    $package_repo_state = 'absent',
+    $package_repo_state = 'absent'
     $service_state = 'stopped'
   } else {
     $package_repo_state = $package_repo_ensure
