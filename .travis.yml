@@ -22,7 +22,7 @@ stages:
   - spec
   - acceptance
   -
-    if: tag =~ ^v\d
+    if: tag =~ \d+.\d+.\d+
     name: deploy
 jobs:
   fast_finish: true
