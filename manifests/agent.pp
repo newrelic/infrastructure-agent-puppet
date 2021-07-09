@@ -199,7 +199,6 @@ class newrelic_infra::agent (
               fail('New Relic Infrastructure agent is not yet supported on this platform')
             }
           }
-          Package['newrelic-infra'] -> Service['newrelic-infra']
         }
         'tarball': {
           if !$tarball_version {
@@ -314,7 +313,15 @@ class newrelic_infra::agent (
       ensure   => $service_state,
       provider => 'upstart',
     }
-  } elsif $::operatingsystem == 'SLES' {
+  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '12' {
+    # Setup agent service for systemd service manager
+    service { 'newrelic-infra':
+      ensure => $service_ensure,
+      start  => 'systemctl start newrelic-infra',
+      stop   => 'systemctl stop newrelic-infra',
+      status => 'systemctl status newrelic-infra',
+    }
+  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '11' {
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
       ensure => $service_state,
