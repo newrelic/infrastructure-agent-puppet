@@ -98,6 +98,15 @@ class newrelic_infra::agent (
     fail('New Relic license key not provided')
   }
 
+  # When ensure is absent, ensure that other variables are set for removal as well
+  if $ensure == 'absent' {
+    $package_repo_state = 'absent'
+    $service_state = 'stopped'
+  } else {
+    $package_repo_state = $package_repo_ensure
+    $service_state = $service_ensure
+  }
+
   case $facts['kernel'] {
     'Linux': {
       case $linux_provider {
@@ -107,7 +116,7 @@ class newrelic_infra::agent (
             'Debian', 'Ubuntu': {
               ensure_packages('apt-transport-https')
               apt::source { 'newrelic_infra-agent':
-                ensure       => $package_repo_ensure,
+                ensure       => $package_repo_state,
                 location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
                 release      => $::lsbdistcodename,
                 repos        => 'main',
@@ -141,7 +150,7 @@ class newrelic_infra::agent (
                 $repo_releasever = $::operatingsystemmajrelease
               }
               yumrepo { 'newrelic_infra-agent':
-                ensure        => $package_repo_ensure,
+                ensure        => $package_repo_state,
                 descr         => 'New Relic Infrastructure',
                 baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
                 gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
@@ -302,13 +311,13 @@ class newrelic_infra::agent (
   if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsystem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
   or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018') {
     service { 'newrelic-infra':
-      ensure   => $service_ensure,
+      ensure   => $service_state,
       provider => 'upstart',
     }
   } elsif $::operatingsystem == 'SLES' {
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
-      ensure => $service_ensure,
+      ensure => $service_state,
       start  => '/etc/init.d/newrelic-infra start',
       stop   => '/etc/init.d/newrelic-infra stop',
       status => '/etc/init.d/newrelic-infra status',
@@ -322,7 +331,7 @@ class newrelic_infra::agent (
       }
     } else {
       service { 'newrelic-infra':
-        ensure => $service_ensure,
+        ensure => $service_state,
         enable => true
       }
     }
