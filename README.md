@@ -109,6 +109,10 @@ windows_temp_folder => 'C:/Windows/Temp'
 
 A flag for omitting the New Relic package repo. Meant for environments where the `newrelic-infra` package has been mirrored to another repo that's already present on the system (set it to `absent` to achieve this).
 
+##### `manage_repo` (Optional)
+
+A flag for not managing the repo but not conflict with mirrors named the same.
+
 ### Installing the infrastructure on-host integrations
 
 In order to install integrations you can use the `integrations` class. The list of available integrations can be found [here][3].
