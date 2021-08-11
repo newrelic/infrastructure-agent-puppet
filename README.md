@@ -111,7 +111,7 @@ A flag for omitting the New Relic package repo. Meant for environments where the
 
 ##### `manage_repo` (Optional)
 
-A flag for not managing the repo but not conflict with mirrors named the same.
+A flag to prevent conflicts when using mirrors. Applicable for Ubuntu, Debian, RedHat, CentOS, Amazon, OracleLinux
 
 ### Installing the infrastructure on-host integrations
 
