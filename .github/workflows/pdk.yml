@@ -32,3 +32,4 @@ jobs:
         uses: puppets-epic-show-theatre/action-pdk-test-unit@v1
         with:
           pe-version: "2019.8.6"
+          pdk-image: "puppet/pdk:nightly"
