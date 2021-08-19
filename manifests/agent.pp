@@ -16,6 +16,10 @@
 #   This is useful in the event the newrelic-infra package has been
 #   mirrored to a repo that already exists on the system
 #
+# [*manage_repo*]
+#   Optionally disable creating any of the repo resources and control outside
+#   of this module.
+#
 # [*proxy*]
 #   Optional value for directing the agent to use a proxy in http(s)://domain.or.ip:port format
 #
@@ -80,6 +84,7 @@ class newrelic_infra::agent (
   $service_ensure       = 'running',
   $license_key          = '',
   $package_repo_ensure  = 'present',
+  $manage_repo          = true,
   $proxy                = '',
   $display_name         = '',
   $verbose              = '',
@@ -115,30 +120,32 @@ class newrelic_infra::agent (
           case $facts['os']['name'] {
             'Debian', 'Ubuntu': {
               ensure_packages('apt-transport-https')
-              apt::source { 'newrelic_infra-agent':
-                ensure       => $package_repo_state,
-                location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
-                release      => $::lsbdistcodename,
-                repos        => 'main',
-                architecture => 'amd64',
-                key          => {
-                    'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
-                    'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
-                },
-                require      => Package['apt-transport-https'],
-              }
-              # work around necessary to get Puppet and Apt to get along on first run, per ticket open as of this writing
-              # https://tickets.puppetlabs.com/browse/MODULES-2190?focusedCommentId=341801&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-341801
-              exec { 'newrelic_infra_apt_get_update':
-                command     => 'apt-get update',
-                cwd         => '/tmp',
-                path        => ['/usr/bin'],
-                subscribe   => Apt::Source['newrelic_infra-agent'],
-                refreshonly => true,
+              if $manage_repo {
+                apt::source { 'newrelic_infra-agent':
+                  ensure       => $package_repo_state,
+                  location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
+                  release      => $::lsbdistcodename,
+                  repos        => 'main',
+                  architecture => 'amd64',
+                  key          => {
+                      'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
+                      'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
+                  },
+                  require      => Package['apt-transport-https'],
+                }
+                # work around necessary to get Puppet and Apt to get along on first run, per ticket open as of this writing
+                # https://tickets.puppetlabs.com/browse/MODULES-2190?focusedCommentId=341801&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-341801
+                exec { 'newrelic_infra_apt_get_update':
+                  command     => 'apt-get update',
+                  cwd         => '/tmp',
+                  path        => ['/usr/bin'],
+                  subscribe   => Apt::Source['newrelic_infra-agent'],
+                  before      => Package['newrelic-infra'],
+                  refreshonly => true,
+                }
               }
               package { 'newrelic-infra':
                 ensure  => $ensure,
-                require => Exec['newrelic_infra_apt_get_update'],
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
@@ -149,17 +156,19 @@ class newrelic_infra::agent (
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
-              yumrepo { 'newrelic_infra-agent':
-                ensure        => $package_repo_state,
-                descr         => 'New Relic Infrastructure',
-                baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
-                gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
-                gpgcheck      => true,
-                repo_gpgcheck => $repo_releasever != '5',
+              if $manage_repo {
+                yumrepo { 'newrelic_infra-agent':
+                  ensure        => $package_repo_state,
+                  descr         => 'New Relic Infrastructure',
+                  baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
+                  gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
+                  gpgcheck      => true,
+                  repo_gpgcheck => $repo_releasever != '5',
+                  before        =>  Package['newrelic-infra'],
+                }
               }
               package { 'newrelic-infra':
                 ensure  => $ensure,
-                require => Yumrepo['newrelic_infra-agent'],
               }
             }
             'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
