@@ -1,0 +1,17 @@
+name: 'Install puppet'
+description: 'Install puppet'
+inputs:
+  puppet_version:
+    description: 'Major version of the puppet'
+    required: false
+    default: '7'
+  ubuntu_dist:
+    description: 'Adjective of the ubuntu version'
+    required: false
+    default: 'focal'
+
+runs:
+  using: 'composite'
+  steps:
+    - run: ${{ github.action_path }}/install.sh ${{ inputs.puppet_version }} ${{ inputs.ubuntu_dist }}
+      shell: bash

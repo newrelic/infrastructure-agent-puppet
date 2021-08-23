@@ -32,3 +32,13 @@ jobs:
         uses: puppets-epic-show-theatre/action-pdk-test-unit@v1
         with:
           pe-version: "2019.8.6"
+  install_puppet_job:
+    runs-on: ubuntu-latest
+    name: Puppet installation
+    steps:
+      - uses: actions/checkout@v2
+      - id: install
+        uses: newrelic/infrastructure-agent-ansible@puppetInstallScript
+        with:
+          puppet_version: 7
+          ubuntu_dist: 'focal'
