@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: install
-        uses: newrelic/infrastructure-agent-ansible@puppetInstallScript
+        uses: newrelic/infrastructure-agent-ansible@main
         with:
           puppet_version: 7
           ubuntu_dist: 'focal'
