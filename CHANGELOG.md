@@ -1,5 +1,17 @@
 # newrelic-infra Puppet module CHANGELOG
 
+# 0.12.0 (2021-08-26)
+
+IMPROVEMENTS:
+
+* Add manage_repo flag
+* Ensure that when ensure is set to absent other variables are as well
+* Extend metadata file with more OS versions
+
+CHANGES:
+
+* Removed support for Puppet version >= 4.0.0
+
 # 0.11.0 (2021-07-05)
 
 IMPROVEMENTS:
