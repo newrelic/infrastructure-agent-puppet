@@ -7,3 +7,6 @@ runs:
       id: install
       run: ${{ github.action_path }}/install.sh ${{ inputs.version }}
       shell: bash
+    - name: Check puppet version
+      run: puppet --version
+      shell: bash      
