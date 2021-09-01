@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Puppet
-        uses: newrelic/infrastructure-agent-puppet/.github/actions/installation@github-actions
+        uses: newrelic/infrastructure-agent-puppet/.github/actions/installation@github_actions

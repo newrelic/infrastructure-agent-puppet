@@ -1,10 +1,5 @@
 name: 'Install Puppet'
-description: 'Install Chef Workstation'
-inputs:
-  version:
-    description: 'puppet version'
-    required: false
-    default: '21.7.524'
+description: 'Install Puppet Workstation'
 runs:
   using: "composite"
   steps:
