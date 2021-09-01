@@ -1,0 +1,11 @@
+on: [push]
+name: Puppet workflow
+
+jobs:
+  install_chef_workstation:
+    runs-on: ubuntu-latest
+    name: Install puppet and run tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Puppet
+        uses: newrelic/infrastructure-agent-puppet/.github/actions/installation@github-actions
