@@ -1,0 +1,10 @@
+name: 'Test Puppet'
+description: 'Test Puppet'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Validate
+      id: validate4
+      run: pdk validate --form=text
+      shell: bash

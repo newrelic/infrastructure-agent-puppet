@@ -1,5 +1,5 @@
 name: 'Install Puppet'
-description: 'Install Puppet Workstation'
+description: 'Install Puppet'
 runs:
   using: "composite"
   steps:
