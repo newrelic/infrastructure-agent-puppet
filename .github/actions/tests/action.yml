@@ -7,3 +7,7 @@ runs:
       id: validate
       run: pdk validate --format=text --parallel
       shell: bash
+    - name: Test
+      id: test
+      run: pdk test unit --tests=test/
+      shell: bash
