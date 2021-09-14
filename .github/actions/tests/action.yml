@@ -5,5 +5,5 @@ runs:
   steps:
     - name: Validate
       id: validate
-      run: pdk validate --form=text
+      run: pdk validate --format=text
       shell: bash
