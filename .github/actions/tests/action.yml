@@ -4,6 +4,6 @@ runs:
   using: "composite"
   steps:
     - name: Validate
-      id: validate4
+      id: validate
       run: pdk validate --form=text
       shell: bash
