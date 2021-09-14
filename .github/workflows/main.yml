@@ -16,5 +16,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Prepare environment
         uses: newrelic/infrastructure-agent-puppet/.github/actions/installation@github_actions
-      - name: Run pdk validate
+      - name: Run tests
         uses: newrelic/infrastructure-agent-puppet/.github/actions/tests@github_actions
