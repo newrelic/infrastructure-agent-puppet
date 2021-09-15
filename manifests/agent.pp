@@ -82,7 +82,7 @@
 class newrelic_infra::agent (
   $ensure               = 'latest',
   $service_ensure       = 'running',
-  $license_key          = '',
+  $license _key          = '',
   $package_repo_ensure  = 'present',
   $manage_repo          = true,
   $proxy                = '',
