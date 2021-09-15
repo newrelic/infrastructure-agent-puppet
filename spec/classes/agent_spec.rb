@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'newrelic_infra::agent' do
   let(:params) { { 'license_key' => 'TEST_VALUE' } }
   let(:node_params) { { 'lsbdistcodename' => 'xenial', 'operatingsystem' => 'Ubuntu', 'operatingsystemmajrelease' => '16.04' } }
-  let(:facts) 
-  do
+  let(:facts) do
     {
       'kernel' => 'Linux',
       'os' => {
