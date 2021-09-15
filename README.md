@@ -1,6 +1,6 @@
 [![New Relic Community Plus header](https://raw.githubusercontent.com/newrelic/open-source-office/master/examples/categories/images/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
 
-[![Build Status](https://travis-ci.org/newrelic/infrastructure-agent-puppet.svg?branch=master)](https://travis-ci.org/newrelic/infrastructure-agent-puppet)
+![run_tests](https://github.com/newrelic/infrastructure-agent-puppet/actions/workflows/main.yml/badge.svg?branch=github_actions) ![release_puppet](https://github.com/newrelic/infrastructure-agent-puppet/actions/workflows/release.yml/badge.svg)
 
 # Puppet module for the New Relic infrastructure agent
 
