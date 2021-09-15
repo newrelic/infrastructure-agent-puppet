@@ -1,0 +1,26 @@
+on:
+  release:
+    types: [published]
+
+name: Release
+
+jobs:
+  run_prerelease_tests:
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare environment
+        uses: newrelic/infrastructure-agent-puppet/.github/actions/installation@github_actions
+      - name: Run tests
+        uses: newrelic/infrastructure-agent-puppet/.github/actions/tests@github_actions
+  release_puppet:
+    runs-on: ubuntu-latest
+    name: Release puppet
+    needs: run_prerelease_tests
+    steps:
+      - name: Release puppet
+        uses: newrelic/infrastructure-agent-puppet/.github/actions/release@master
+        with:
+          forge_api_key: ${{ secrets.forge_api_key }}
+

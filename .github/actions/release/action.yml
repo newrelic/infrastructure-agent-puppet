@@ -1,0 +1,23 @@
+name: 'Release package'
+description: 'Run release script'
+
+inputs:
+  forge_api_key:
+    description: "Puppet Forge API Key"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get latest tag
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF:10}
+      shell: bash
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.vars.outputs.tag }}
+    - name: Release
+      id: release
+      run: ${{ github.action_path }}/release.sh
+      shell: bash
