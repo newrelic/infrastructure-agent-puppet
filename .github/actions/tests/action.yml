@@ -9,5 +9,5 @@ runs:
       shell: bash
     - name: Test
       id: test
-      run: pdk test unit --tests=test/integration/default --debug
+      run: pdk test unit -c
       shell: bash
