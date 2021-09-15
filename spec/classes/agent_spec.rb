@@ -20,11 +20,11 @@ describe 'newrelic_infra::agent' do
           'release' => {
             'full' => '16.04',
             'major' => '16.04',
-          }
+          },
         },
-      }
+      },
     }
   end
-  
+
   it { is_expected.to compile }
 end
