@@ -10,20 +10,21 @@ describe 'newrelic_infra::agent' do
         'name' => 'Ubuntu',
         'family' => 'Debian',
         'release' => {
-            'full' => '16.04',
-            'major' => '16.04',
+          'full' => '16.04',
+          'major' => '16.04',
         },
         'distro' => {
-            'codename' => 'xenial',
-            'description' => 'Ubuntu 16.04 LTS',
-            'id' => 'Ubuntu',
-            'release' => {
-                'full' => '16.04',
-                'major' => '16.04'
-            }
+          'codename' => 'xenial',
+          'description' => 'Ubuntu 16.04 LTS',
+          'id' => 'Ubuntu',
+          'release' => {
+            'full' => '16.04',
+            'major' => '16.04',
+          }
         },
       }
     }
   end
+  
   it { is_expected.to compile }
 end
