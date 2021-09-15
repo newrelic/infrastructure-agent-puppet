@@ -1,0 +1,13 @@
+name: 'Test Puppet'
+description: 'Test Puppet'
+runs:
+  using: "composite"
+  steps:
+    - name: Validate
+      id: validate
+      run: pdk validate --format=text --parallel
+      shell: bash
+    - name: Test
+      id: test
+      run: pdk test unit -c
+      shell: bash

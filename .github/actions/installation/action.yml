@@ -1,0 +1,12 @@
+name: 'Install Puppet'
+description: 'Install Puppet'
+runs:
+  using: "composite"
+  steps:
+    - name: Install Puppet
+      id: install
+      run: ${{ github.action_path }}/install.sh
+      shell: bash
+    - name: Check puppet version
+      run: puppet --version
+      shell: bash      
