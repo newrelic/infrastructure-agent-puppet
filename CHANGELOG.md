@@ -1,5 +1,11 @@
 # newrelic-infra Puppet module CHANGELOG
 
+# 0.13.0 (2021-09-16)
+
+CHANGES:
+
+* Removed support for CentOS versions 5 and 6 to comply with the newrelic infrastructure agent documentation.
+
 # 0.12.0 (2021-08-26)
 
 IMPROVEMENTS:
