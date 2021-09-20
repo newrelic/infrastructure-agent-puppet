@@ -11,7 +11,7 @@ if [ -z "$FORGE_API_KEY" ]; then
 fi
 
 #Set variables
-url='https://forgeapi.puppet.com/v3/releases'
+url='https://forge.puppet.com/modules/newrelic/newrelic_infra'
 metadata=$(cat metadata.json)
 release_name=$(echo "$metadata" | jq -r .name)
 release_version=$(echo "$metadata" | jq -r .version)
