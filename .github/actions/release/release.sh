@@ -1,6 +1,6 @@
 #Verify is forge api key is assigned, if not exit
-if [ -z "$forge_api_key" ]; then
-    echo "forge_api_key not set, exiting..."
+if [ -z "$FORGE_API_KEY" ]; then
+    echo "FORGE_API_KEY not set, exiting..."
     exit 1
 fi
 
