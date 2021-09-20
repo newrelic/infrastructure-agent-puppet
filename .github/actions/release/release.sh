@@ -11,6 +11,6 @@ if [ -z "$FORGE_API_KEY" ]; then
 fi
 
 #Publish module
-pdk release --force --forge-token=$FORGE_API_KEY --skip-changelog --skip-validation
+pdk release --force --forge-token=$FORGE_API_KEY --skip-changelog --skip-validation --skip-documentation
 
 
