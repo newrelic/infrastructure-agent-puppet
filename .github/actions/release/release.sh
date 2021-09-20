@@ -26,5 +26,6 @@ pdk build --force
 curl -vX 'POST' \
  -F file="$name".tar.gz \
  --header "$content_type" \
- --header "$auth_header" "$url"
+ --header "$auth_header" \
+ "$url"
 
