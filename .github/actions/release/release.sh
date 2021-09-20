@@ -22,7 +22,7 @@ auth_header="Authorization: Bearer $FORGE_API_KEY"
 #Prepare module for publishing
 pdk build --force
 
-ls pdk
+ls pkg
 
 #Publish module
 curl -vfsSX "POST" \
