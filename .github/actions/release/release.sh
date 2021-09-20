@@ -18,13 +18,16 @@ release_version=$(echo "$metadata" | jq -r .version)
 name="pkg/$release_name-$release_version"
 content_type="Content-Type: multipart/form-data"
 auth_header="Authorization: Bearer $FORGE_API_KEY"
+file_name="$name.tar.gz"
+
+echo $file_name
 
 #Prepare module for publishing
 pdk build --force
 
 #Publish module - missing flags: -fsS
 curl -vX 'POST' \
- -F file="$name".tar.gz \
+ -F file="$file_name" \
  --header "$content_type" \
  --header "$auth_header" \
  "$url"
