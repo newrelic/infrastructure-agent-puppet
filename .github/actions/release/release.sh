@@ -25,6 +25,6 @@ pdk build --force
 #Publish module
 curl -fsSX 'POST' \
  -F file="$name".tar.gz \
- --header $content_type \
- --header $auth_header "$url"
+ --header "$content_type" \
+ --header "$auth_header" "$url"
 
