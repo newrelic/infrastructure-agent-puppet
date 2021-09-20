@@ -2,10 +2,10 @@ name: 'Release package'
 description: 'Run release script'
 
 inputs:
-  forge_api_key:
+  FORGE_API_KEY:
     description: "Puppet Forge API Key"
     required: true
-
+    
 runs:
   using: "composite"
   steps:
