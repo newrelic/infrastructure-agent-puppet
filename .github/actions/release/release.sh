@@ -23,5 +23,9 @@ auth_header="Authorization: Bearer $FORGE_API_KEY"
 pdk build --force
 
 #Publish module
-curl -fsSX 'POST' -F file="$name".tar.gz -H $content_type -H auth_header "$url"
+curl -fsSX 'POST' \
+ -F file="$name".tar.gz \
+ -H $content_type \
+ -H $auth_header \ 
+ "$url"
 
