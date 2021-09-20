@@ -21,6 +21,6 @@ jobs:
     steps:
       - name: Release puppet
         uses: newrelic/infrastructure-agent-puppet/.github/actions/release@master
-        with:
-          forge_api_key: ${{ secrets.FORGE_API_KEY }}
+        env:
+          FORGE_API_KEY: ${{ secrets.FORGE_API_KEY }}
 
