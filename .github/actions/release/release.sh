@@ -25,8 +25,8 @@ echo $file_name
 #Prepare module for publishing
 pdk build --force
 
-#Publish module - missing flags: -fsS
-curl -vX 'POST' \
+#Publish module - missing flags: -sS
+curl -vfX 'POST' \
  -F file="$file_name" \
  --header "$content_type" \
  --header "$auth_header" \
