@@ -1,3 +1,9 @@
+# Install pdk
+wget https://apt.puppet.com/puppet-tools-release-focal.deb
+sudo dpkg -i puppet-tools-release-focal.deb
+sudo apt-get update
+sudo apt-get install pdk
+
 #Verify is forge api key is assigned, if not exit
 if [ -z "$FORGE_API_KEY" ]; then
     echo "FORGE_API_KEY not set, exiting..."
@@ -10,7 +16,7 @@ metadata=$(cat metadata.json)
 release_name=$(echo "$metadata" | jq -r .name)
 release_version=$(echo "$metadata" | jq -r .version)
 name="pkg/$release_name-$release_version"
-content_type='Content-Type: multipart/form-data'
+content_type="Content-Type: multipart/form-data"
 auth_header="Authorization: Bearer $FORGE_API_KEY"
 
 #Prepare module for publishing
