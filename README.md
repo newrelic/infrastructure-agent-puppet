@@ -182,8 +182,8 @@ To release a new version to [PuppetForge][1] follow this steps:
 
 * Update the [CHANGELOG.md](CHANGELOG.md)
 * Increase the version in [metadata.json](metadata.json)
-* Create a new Github release: the release process will be executed
-  in [TravisCI][2]
+* Create a new Github release
+* Watch the build with the version number in Github Actions: https://github.com/newrelic/infrastructure-agent-puppet/actions
 
 ## Support
 
