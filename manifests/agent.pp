@@ -230,18 +230,26 @@ class newrelic_infra::agent (
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
 
-          file { $target_dir:
-            ensure  => directory,
-            recurse => true
-          }
-          -> file { "/opt/${tar_filename}":
+          file { "/opt/${tar_filename}":
             ensure => present,
             source => "https://download.newrelic.com/infrastructure_agent/binaries/linux/${arch}/${tar_filename}",
           }
-          -> exec { 'uncompress newrelic-infra tarball':
+
+          file { '/opt/newrelic_infra/':
+            ensure  => directory,
+          }
+          -> file { $target_dir:
+            ensure  => directory,
+          }
+
+          exec { 'uncompress newrelic-infra tarball':
             command => "tar -xzf /opt/${tar_filename} -C ${target_dir} ",
             path    => '/bin',
             creates => "${target_dir}/newrelic-infra/",
+            require => [
+              File["/opt/${tar_filename}"],
+              File[$target_dir]
+            ]
           }
           ~> exec { 'run installation script':
             command     => "${target_dir}/newrelic-infra/installer.sh",
@@ -340,16 +348,9 @@ class newrelic_infra::agent (
     }
   } else {
     # Setup agent service
-    if $ensure == 'absent' {
-      service { 'newrelic-infra':
-        ensure => stopped,
-        enable => false
-      }
-    } else {
-      service { 'newrelic-infra':
-        ensure => $service_state,
-        enable => true
-      }
+    service { 'newrelic-infra':
+      ensure => $ensure != 'absent',
+      enable => $ensure != 'absent'
     }
   }
 }
