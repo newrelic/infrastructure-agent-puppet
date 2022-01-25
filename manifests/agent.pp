@@ -221,35 +221,27 @@ class newrelic_infra::agent (
             fail("The `tarball_version` variable should be defined when using `linux_provider='tarball'`")
           }
 
-          case $facts['os']['architecture'] {
-            'x86_64': { $arch = 'amd64' }
-            'i386': { $arch = '386' }
-            'armv7l', 'armv6l': { $arch = 'arm' }
-            default: { $arch = facts['os']['architecture'] }
+          $arch = $facts['os']['architecture'] ? {
+            'x86_64' => 'amd64',
+            'i386' => '386',
+            'armv7l' => 'arm', 'armv6l' => 'arm',
+            default => facts['os']['architecture']
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
 
-          file { '/opt/newrelic_infra':
-            ensure => directory
+          file { $target_dir:
+            ensure  => directory,
+            recurse => true
           }
-          -> file { $target_dir:
-            ensure => directory
-          }
-
-          file { "/opt/${tar_filename}":
+          -> file { "/opt/${tar_filename}":
             ensure => present,
             source => "https://download.newrelic.com/infrastructure_agent/binaries/linux/${arch}/${tar_filename}",
           }
-
-          exec { 'uncompress newrelic-infra tarball':
+          -> exec { 'uncompress newrelic-infra tarball':
             command => "tar -xzf /opt/${tar_filename} -C ${target_dir} ",
             path    => '/bin',
             creates => "${target_dir}/newrelic-infra/",
-            require => Remote_file[
-              'download_newrelic_agent',
-              $target_dir
-            ]
           }
           ~> exec { 'run installation script':
             command     => "${target_dir}/newrelic-infra/installer.sh",
