@@ -116,9 +116,16 @@ class newrelic_infra::agent (
     'Linux': {
       case $linux_provider {
         'package_manager': {
+          case $facts['os']['architecture'] {
+            'x86_64': { $arch = 'amd64' }
+            'i386': { $arch = '386' }
+            'armv7l', 'armv6l': { $arch = 'arm' }
+            default: { $arch = facts['os']['architecture'] }
+          }
+
           # Setup agent package repo
           case $facts['os']['name'] {
-            'Debian', 'Ubuntu': {
+            'Debian', 'Ubuntu', 'Raspbian': {
               ensure_packages('apt-transport-https')
               if $manage_repo {
                 apt::source { 'newrelic_infra-agent':
@@ -126,7 +133,7 @@ class newrelic_infra::agent (
                   location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
                   release      => $::lsbdistcodename,
                   repos        => 'main',
-                  architecture => 'amd64',
+                  architecture => $arch,
                   key          => {
                       'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
                       'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
@@ -217,6 +224,7 @@ class newrelic_infra::agent (
           case $facts['os']['architecture'] {
             'x86_64': { $arch = 'amd64' }
             'i386': { $arch = '386' }
+            'armv7l', 'armv6l': { $arch = 'arm' }
             default: { $arch = facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
