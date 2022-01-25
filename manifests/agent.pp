@@ -218,7 +218,7 @@ class newrelic_infra::agent (
             'x86_64': { $arch = 'amd64' }
             'i386': { $arch = '386' }
             'armv7l', 'armv6l': { $arch = 'arm' }
-            default: { $arch = facts['os']['architecture'] }
+            default: { $arch = $facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
