@@ -116,16 +116,9 @@ class newrelic_infra::agent (
     'Linux': {
       case $linux_provider {
         'package_manager': {
-          case $facts['os']['architecture'] {
-            'x86_64': { $arch = 'amd64' }
-            'i386': { $arch = '386' }
-            'armv7l', 'armv6l': { $arch = 'arm' }
-            default: { $arch = facts['os']['architecture'] }
-          }
-
           # Setup agent package repo
           case $facts['os']['name'] {
-            'Debian', 'Ubuntu', 'Raspbian': {
+            'Debian', 'Ubuntu': {
               ensure_packages('apt-transport-https')
               if $manage_repo {
                 apt::source { 'newrelic_infra-agent':
@@ -133,7 +126,7 @@ class newrelic_infra::agent (
                   location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
                   release      => $::lsbdistcodename,
                   repos        => 'main',
-                  architecture => $arch,
+                  architecture => 'amd64',
                   key          => {
                       'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
                       'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
@@ -212,7 +205,7 @@ class newrelic_infra::agent (
               }
             }
             default: {
-              fail('New Relic Infrastructure agent is not yet supported on this platform')
+              fail('New Relic Infrastructure agent is not yet supported on this platform, try using tarball installation.')
             }
           }
         }
@@ -221,11 +214,11 @@ class newrelic_infra::agent (
             fail("The `tarball_version` variable should be defined when using `linux_provider='tarball'`")
           }
 
-          $arch = $facts['os']['architecture'] ? {
-            'x86_64' => 'amd64',
-            'i386' => '386',
-            'armv7l' => 'arm', 'armv6l' => 'arm',
-            default => facts['os']['architecture']
+          case $facts['os']['architecture'] {
+            'x86_64': { $arch = 'amd64' }
+            'i386': { $arch = '386' }
+            'armv7l', 'armv6l': { $arch = 'arm' }
+            default: { $arch = facts['os']['architecture'] }
           }
           $tar_filename = "newrelic-infra_linux_${tarball_version}_${arch}.tar.gz"
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
