@@ -237,11 +237,9 @@ class newrelic_infra::agent (
             ensure => directory
           }
 
-          remote_file { 'download_newrelic_agent':
+          file { "/opt/${tar_filename}":
             ensure => present,
-            path   => "/opt/${tar_filename}",
             source => "https://download.newrelic.com/infrastructure_agent/binaries/linux/${arch}/${tar_filename}",
-            proxy  => $download_proxy
           }
 
           exec { 'uncompress newrelic-infra tarball':
