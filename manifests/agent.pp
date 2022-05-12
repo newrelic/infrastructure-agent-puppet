@@ -55,7 +55,7 @@
 #   Optional. Proxy url for tarball or msi install
 #
 # [*windows_download_url*]
-#   Optional. A string value for the download URL for MSI windows installation file.
+#   Optional. A string value for the *base* download URL for MSI windows installation file.
 #
 # [*linux_provider*]
 #   Specifies the provider to use for installing the agent. Two options are
@@ -94,7 +94,7 @@ class newrelic_infra::agent (
   $download_proxy       = undef,
   $windows_provider     = 'windows',
   $windows_temp_folder  = 'C:/Windows/Temp',
-  $windows_download_url = 'https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi',
+  $windows_download_url = 'https://download.newrelic.com/infrastructure_agent/windows',
   $linux_provider       = 'package_manager',
   $tarball_version      = undef
 ) {
@@ -272,7 +272,7 @@ class newrelic_infra::agent (
       remote_file { 'download_newrelic_agent':
         ensure => present,
         path   => "${windows_temp_folder}/${download_windows}",
-        source => $windows_download_url,
+        source => "${$windows_download_url}/${download_windows}",
         proxy  => $download_proxy
       }
 
