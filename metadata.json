@@ -9,11 +9,11 @@
     "issues_url": "https://github.com/newrelic/infrastructure-agent-puppet/issues",
     "dependencies": [{
             "name": "puppetlabs-apt",
-            "version_requirement": ">= 2.3.0 <= 8.3.0"
+            "version_requirement": ">= 2.3.0 <= 8.4.0"
         },
         {
             "name": "puppetlabs-stdlib",
-            "version_requirement": ">= 4.2.0 <= 8.1.0"
+            "version_requirement": ">= 4.2.0 <= 8.2.0"
         },
         {
             "name": "lwf-remote_file",
