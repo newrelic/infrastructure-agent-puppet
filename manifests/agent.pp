@@ -129,7 +129,7 @@ class newrelic_infra::agent (
                   architecture => 'amd64',
                   key          => {
                       'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
-                      'source' => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
+                      'source' => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_apt_key_current.gpg',
                   },
                   require      => Package['apt-transport-https'],
                 }
@@ -161,7 +161,7 @@ class newrelic_infra::agent (
                   ensure        => $package_repo_state,
                   descr         => 'New Relic Infrastructure',
                   baseurl       => "https://download.newrelic.com/infrastructure_agent/linux/yum/el/${repo_releasever}/x86_64",
-                  gpgkey        => 'https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg',
+                  gpgkey        => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_rpm_key_current.gpg',
                   gpgcheck      => true,
                   repo_gpgcheck => $repo_releasever != '5',
                   before        =>  Package['newrelic-infra'],
@@ -174,7 +174,7 @@ class newrelic_infra::agent (
             'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
               # work around necessary because sles has a very old version of puppet and zypprepo can't not be installed
               exec { 'download_newrelic_gpg_key':
-                command => '/usr/bin/wget https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg -O /opt/newrelic_infra.gpg',
+                command => '/usr/bin/wget https://download.newrelic.com/infrastructure_agent/keys/newrelic_rpm_key_current.gpg -O /opt/newrelic_infra.gpg',
                 creates => '/opt/newrelic_infra.gpg',
               }
               ~> exec { 'import_newrelic_gpg_key':
