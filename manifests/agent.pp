@@ -126,7 +126,7 @@ class newrelic_infra::agent (
                   location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
                   release      => $::lsbdistcodename,
                   repos        => 'main',
-                  architecture => 'amd64',
+                  architecture => $::architecture,
                   key          => {
                       'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
                       'source' => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_apt_key_current.gpg',
