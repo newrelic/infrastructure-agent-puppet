@@ -153,6 +153,8 @@ class newrelic_infra::agent (
                 $repo_releasever = '6'
               } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
                 $repo_releasever = '7'
+              } elsif (facts['os']['name'] == 'RedHat' and facts['os']['distro']['release']['major'] == '9') {
+                $repo_releasever = '9'
               } else {
                 $repo_releasever = $::operatingsystemmajrelease
               }
