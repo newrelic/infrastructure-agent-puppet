@@ -1,5 +1,8 @@
 [![New Relic Community Plus header](https://raw.githubusercontent.com/newrelic/open-source-office/master/examples/categories/images/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
 
+|:warning:| New Relic offers a new [Puppet solution](https://github.com/newrelic/puppet-install) that simplifies scaling your New Relic Observability efforts. Please consider using this solution going forward. |
+|---------------|:------------------------|
+
 ![run_tests](https://github.com/newrelic/infrastructure-agent-puppet/actions/workflows/main.yml/badge.svg?branch=master) ![release_puppet](https://github.com/newrelic/infrastructure-agent-puppet/actions/workflows/release.yml/badge.svg)
 
 # Puppet module for the New Relic infrastructure agent
