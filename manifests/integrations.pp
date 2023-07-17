@@ -7,7 +7,7 @@ class newrelic_infra::integrations (
 
   # Setup agent package repo
   case $::operatingsystem {
-    'Debian', 'Ubuntu', 'RedHat', 'CentOS','Amazon', 'OracleLinux': {
+    'Debian', 'Ubuntu', 'RedHat', 'CentOS','Amazon', 'OracleLinux', 'Raspbian': {
       ensure_packages($integrations)
     }
     'OpenSuSE', 'SuSE', 'SLED', 'SLES': {
