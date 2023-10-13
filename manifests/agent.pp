@@ -124,12 +124,12 @@ class newrelic_infra::agent (
                 apt::source { 'newrelic_infra-agent':
                   ensure       => $package_repo_state,
                   location     => 'https://download.newrelic.com/infrastructure_agent/linux/apt',
-                  release      => $::lsbdistcodename,
+                  release      => $facts['os']['distro']['codename'],
                   repos        => 'main',
                   architecture => 'amd64',
                   key          => {
-                      'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
-                      'source' => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_apt_key_current.gpg',
+                    'id'     => 'A758B3FBCD43BE8D123A3476BB29EE038ECCE87C',
+                    'source' => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_apt_key_current.gpg',
                   },
                   require      => Package['apt-transport-https'],
                 }
@@ -149,12 +149,12 @@ class newrelic_infra::agent (
               }
             }
             'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
-              if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018'){
+              if ($facts['os']['name'] == 'Amazon' and $facts['os']['release']['major'] == '2018') {
                 $repo_releasever = '6'
-              } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
+              } elsif ($facts['os']['name'] == 'Amazon' and $facts['os']['release']['major'] == '2') {
                 $repo_releasever = '7'
               } else {
-                $repo_releasever = $::operatingsystemmajrelease
+                $repo_releasever = $facts['os']['release']['major']
               }
               if $manage_repo {
                 yumrepo { 'newrelic_infra-agent':
@@ -164,7 +164,7 @@ class newrelic_infra::agent (
                   gpgkey        => 'https://download.newrelic.com/infrastructure_agent/keys/newrelic_rpm_key_current.gpg',
                   gpgcheck      => true,
                   repo_gpgcheck => $repo_releasever != '5',
-                  before        =>  Package['newrelic-infra'],
+                  before        => Package['newrelic-infra'],
                 }
               }
               package { 'newrelic-infra':
@@ -179,7 +179,7 @@ class newrelic_infra::agent (
               }
               ~> exec { 'import_newrelic_gpg_key':
                 command     => '/bin/rpm --import /opt/newrelic_infra.gpg',
-                refreshonly => true
+                refreshonly => true,
               }
               -> exec { 'add_newrelic_repo':
                 creates => '/etc/zypp/repos.d/newrelic-infra.repo',
@@ -193,14 +193,14 @@ class newrelic_infra::agent (
                   command => '/usr/bin/zypper install -y newrelic-infra',
                   path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
                   require => Exec['add_newrelic_repo'],
-                  unless  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra'
+                  unless  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra',
                 }
               }
               elsif $ensure == 'absent' {
                 exec { 'install_newrelic_agent':
                   command => '/usr/bin/zypper remove -y newrelic-infra',
                   path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-                  onlyif  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra'
+                  onlyif  => '/bin/rpm -qa | /usr/bin/grep newrelic-infra',
                 }
               }
             }
@@ -223,17 +223,17 @@ class newrelic_infra::agent (
           $target_dir = "/opt/newrelic_infra/linux_${tarball_version}_${arch}"
 
           file { '/opt/newrelic_infra':
-            ensure => directory
+            ensure => directory,
           }
           -> file { $target_dir:
-            ensure => directory
+            ensure => directory,
           }
 
           remote_file { 'download_newrelic_agent':
             ensure => present,
             path   => "/opt/${tar_filename}",
             source => "https://download.newrelic.com/infrastructure_agent/binaries/linux/${arch}/${tar_filename}",
-            proxy  => $download_proxy
+            proxy  => $download_proxy,
           }
 
           exec { 'uncompress newrelic-infra tarball':
@@ -243,20 +243,20 @@ class newrelic_infra::agent (
             require => Remote_file[
               'download_newrelic_agent',
               $target_dir
-            ]
+            ],
           }
           ~> exec { 'run installation script':
             command     => "${target_dir}/newrelic-infra/installer.sh",
             provider    => shell,
             cwd         => "${target_dir}/newrelic-infra",
             refreshonly => true,
-            environment =>  ["NRIA_LICENSE_KEY=${license_key}"]
+            environment => ["NRIA_LICENSE_KEY=${license_key}"],
           }
           Exec['run installation script'] -> Service['newrelic-infra']
         }
-      default: {
-        fail('New Relic Infrastructure agent is not yet supported on this platform')
-      }
+        default: {
+          fail('New Relic Infrastructure agent is not yet supported on this platform')
+        }
       }
     }
     'windows': {
@@ -273,7 +273,7 @@ class newrelic_infra::agent (
         ensure => present,
         path   => "${windows_temp_folder}/${download_windows}",
         source => "${$windows_download_url}/${download_windows}",
-        proxy  => $download_proxy
+        proxy  => $download_proxy,
       }
 
       package { 'newrelic-infra':
@@ -289,10 +289,10 @@ class newrelic_infra::agent (
     }
   }
 
-  if $::operatingsystem != 'windows' {
+  if $facts['os']['name'] != 'windows' {
     # Setup agent config
     file { '/etc/newrelic-infra.yml':
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'root',
       group   => 'root',
       mode    => '0640',
@@ -304,7 +304,7 @@ class newrelic_infra::agent (
     if $ensure == 'absent' {
       file { 'newrelic_config_file':
         ensure => 'absent',
-        name   => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml'
+        name   => 'C:\Program Files\New Relic\newrelic-infra\newrelic-infra.yml',
       }
     } else {
       file { 'newrelic_config_file':
@@ -318,13 +318,13 @@ class newrelic_infra::agent (
   }
 
   # we use Upstart on CentOS 6 systems and derivatives, which is not the default
-  if (($::operatingsystem == 'CentOS' or $::operatingsystem == 'RedHat' or $::operatingsystem == 'OracleLinux')and $::operatingsystemmajrelease == '6')
-  or ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018') {
+  if (($facts['os']['name'] == 'CentOS' or $facts['os']['name'] == 'RedHat' or $facts['os']['name'] == 'OracleLinux')and $facts['os']['release']['major'] == '6')
+  or ($facts['os']['name'] == 'Amazon' and $facts['os']['release']['major'] == '2018') {
     service { 'newrelic-infra':
       ensure   => $service_state,
       provider => 'upstart',
     }
-  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '12' {
+  } elsif $facts['os']['name'] == 'SLES' and $facts['os']['release']['major'] == '12' {
     # Setup agent service for systemd service manager
     service { 'newrelic-infra':
       ensure => $service_ensure,
@@ -332,7 +332,7 @@ class newrelic_infra::agent (
       stop   => 'systemctl stop newrelic-infra',
       status => 'systemctl status newrelic-infra',
     }
-  } elsif $::operatingsystem == 'SLES' and $::operatingsystemmajrelease == '11' {
+  } elsif $facts['os']['name'] == 'SLES' and $facts['os']['release']['major'] == '11' {
     # Setup agent service for sysv-init service manager
     service { 'newrelic-infra':
       ensure => $service_state,
@@ -345,12 +345,12 @@ class newrelic_infra::agent (
     if $ensure == 'absent' {
       service { 'newrelic-infra':
         ensure => stopped,
-        enable => false
+        enable => false,
       }
     } else {
       service { 'newrelic-infra':
         ensure => $service_state,
-        enable => true
+        enable => true,
       }
     }
   }
