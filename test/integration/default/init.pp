@@ -3,5 +3,5 @@ class { 'newrelic_infra::agent':
   license_key => 'YOUR_NR_LICENSE_KEY',
 }
 -> class { 'newrelic_infra::integrations':
-  integrations => { 'nri-nginx' => { ensure => present } }
+  integrations => { 'nri-nginx' => { ensure => present } },
 }

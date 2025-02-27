@@ -3,10 +3,10 @@
 class newrelic_infra::integrations (
   $integrations = {}
 ) {
-  require ::newrelic_infra::agent
+  require newrelic_infra::agent
 
   # Setup agent package repo
-  case $::operatingsystem {
+  case $facts['os']['name'] {
     'Debian', 'Ubuntu', 'RedHat', 'CentOS','Amazon', 'OracleLinux': {
       ensure_packages($integrations)
     }
@@ -17,14 +17,14 @@ class newrelic_infra::integrations (
             command => "/usr/bin/zypper install -y ${integration_name}",
             path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
             require => Exec['add_newrelic_integrations_repo'],
-            unless  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
+            unless  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}",
           }
         }
         elsif $integrations[$integration_name]['ensure'] == 'absent' {
           exec { "install_${integration_name}":
             command => "/usr/bin/zypper remove -y ${integration_name}",
             path    => ['/usr/local/sbin', '/usr/local/bin', '/sbin', '/bin', '/usr/bin'],
-            onlyif  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}"
+            onlyif  => "/bin/rpm -qa | /usr/bin/grep ${integration_name}",
           }
         }
       }
