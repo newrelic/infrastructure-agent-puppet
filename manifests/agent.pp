@@ -148,7 +148,7 @@ class newrelic_infra::agent (
                 ensure  => $ensure,
               }
             }
-            'RedHat', 'CentOS', 'Amazon', 'OracleLinux': {
+            'RedHat', 'CentOS', 'Amazon', 'OracleLinux', 'AlmaLinux': {
               if ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2018'){
                 $repo_releasever = '6'
               } elsif ($::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2'){
